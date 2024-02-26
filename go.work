@@ -1,0 +1,8 @@
+go 1.21.7
+
+use (
+	./cli
+	./config
+	./lib
+	./ui
+)

@@ -31,7 +31,7 @@ jobs:
       run: go build -v ./lib
 
     - name: Build cli
-      run: go build -v ./cli
+      run: go build -o lcli -v ./cli
 
     - name: Build ui
-      run: go build -v ./ui
+      run: go build -o lcui -v ./ui

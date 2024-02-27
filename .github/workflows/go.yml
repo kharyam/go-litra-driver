@@ -34,7 +34,7 @@ jobs:
       run: go build -o lcli -v ./cli
 
     - name: Install X dependencies
-      run: sudo apt-get install -y libxcursor-dev
+      run: sudo apt-get install -y libxcursor-dev libxrandr-dev
 
     - name: Build ui
       run: go build -o lcui -v ./ui

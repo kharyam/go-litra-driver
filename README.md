@@ -31,6 +31,8 @@ A basic UI can be launched to allow control of the light:
 lcui
 ```
 
+![lcui Screen Shot](images/lcui.png)
+
 ## The CLI
 
 ```bash

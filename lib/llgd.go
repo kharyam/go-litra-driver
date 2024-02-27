@@ -170,12 +170,10 @@ func LightBrightness(level int) {
 // LightTemperature sets a light temperature between 2700 and 6500
 func LightTemperature(temp uint16) {
 
-	log.Info().Msgf("%d", temp)
 	tempBytes := make([]byte, 2)
 
 	binary.BigEndian.PutUint16(tempBytes, temp)
 
-	log.Info().Msgf("%d %d", tempBytes[0], tempBytes[1])
 	var bytes = []byte{0x11, 0xff, 0x04, 0x9c, tempBytes[0], tempBytes[1], 0x00, 0x00,
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 

@@ -107,12 +107,10 @@ func commandDevices(bytes []byte) {
 		device.SetAutoDetach(true)
 		defer device.Close()
 		var endpoint = getEndpoint(device)
-		var bufferLength = getBufferLength(device)
-		log.Debug().Msgf("Turning on device at endpoint %d buffer length %d", endpoint, bufferLength)
 
 		cfg, err := device.Config(1)
 		if err != nil {
-			log.Fatal().Msgf("%s.Config(2): %v", device, err)
+			log.Fatal().Msgf("%s.Config(1): %v", device, err)
 		}
 		defer cfg.Close()
 
@@ -171,10 +169,13 @@ func LightBrightness(level int) {
 
 // LightTemperature sets a light temperature between 2700 and 6500
 func LightTemperature(temp uint16) {
+
+	log.Info().Msgf("%d", temp)
 	tempBytes := make([]byte, 2)
 
 	binary.BigEndian.PutUint16(tempBytes, temp)
 
+	log.Info().Msgf("%d %d", tempBytes[0], tempBytes[1])
 	var bytes = []byte{0x11, 0xff, 0x04, 0x9c, tempBytes[0], tempBytes[1], 0x00, 0x00,
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 

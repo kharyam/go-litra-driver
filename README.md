@@ -1,3 +1,4 @@
+![Go workflow](https://github.com/kharyam/go-litra-driver/actions/workflows/go.yml/badge.svg)
 # Controller for Litra Glow and Beam
 
 ## Development

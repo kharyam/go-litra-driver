@@ -24,6 +24,9 @@ jobs:
     - name: Build config
       run: go build -v ./config
 
+    - name: Install xmllint
+      run: sudo apt-get install -y libusb-1.0-0
+
     - name: Build lib
       run: go build -v ./lib
 

@@ -72,7 +72,18 @@ lcli off
 
 ## Development
 
-### Cobra Config
+### Build Locally
+
+```bash
+git clone git@github.com:kharyam/go-litra-driver.git
+cd go-litra-driver
+go build -v ./config
+go build -v ./lib
+go build -o lcli -v ./cli
+go build -o lcui -v ./ui
+```
+
+### Cobra Config (for future reference)
 
 ```bash
 

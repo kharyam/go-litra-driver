@@ -72,9 +72,69 @@ lcli off
 
 ## Development
 
-### Build Locally
+### Linux Pre-requisites
+```bash
+sudo apt-get install -y libusb-dev libusb-1.0-0-dev
+```
+
+### OS X Pre-requisities
+```bash
+brew install libusb
+```
+
+### Windows Pre-requisities (Work in Progress!!)
+
+Follow the steps under `Installing the MinGW-w64 toolchain` [here](https://code.visualstudio.com/docs/cpp/config-mingw)
+**Do not follow the step for pkg-config - the link currently goes to a malicious website. pkg-config will be installed as part of the Gcc installation**
+
+Be sure to run the terminal `MSYS32 MINGW64`
 
 ```bash
+pacman -Sy mingw-w64-x86_64-toolchain
+pacman -Sy mingw-w64-x86_64-libusb
+
+```
+create /mingw64/lib/pkgconfig/libusb-1.0.pc
+
+```
+#lib-usb-1.0.pc
+prefix=/mingw64
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: libusb-1.0
+Description: C API for USB device access from Linux, Mac OS X, Windows, OpenBSD/NetBSD and Solaris userspace
+
+#update version to match
+Version: 1.0.27
+Libs: -L${libdir} -llibusb-1.0
+Libs.private: 
+Cflags: -I${includedir}/libusb-1.0
+```
+
+
+
+Copy `libusb-1.0.dll` to `c:\Windows\System32`
+
+Use [zadig](https://zadig.akeo.ie/) to replace the USB drivers for the litra glow to use WinUSB...
+
+![Zadig Screen Shot](images/zadig.png)
+
+References
+* https://github.com/google/gousb?tab=readme-ov-file#notes-for-installation-on-windows
+* https://code.visualstudio.com/docs/cpp/config-mingw
+
+
+
+### Build Locally
+
+
+```bash
+
+# Linux
+sudo apt-get install -y libusb-dev libusb-1.0-0-dev
+
 git clone git@github.com:kharyam/go-litra-driver.git
 cd go-litra-driver
 go build -v ./config

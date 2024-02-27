@@ -3,6 +3,7 @@
 package config
 
 import (
+	"errors"
 	"os"
 
 	"path/filepath"
@@ -34,6 +35,14 @@ func getConfig() (*configparser.ConfigParser, string) {
 			log.Fatal().Msgf("Failed to find home directory: %v", err)
 		}
 		configFile = filepath.Join(homeDir, ".llgd_config")
+	}
+
+	if _, err := os.Stat(configFile); errors.Is(err, os.ErrNotExist) {
+		cfile, e := os.Create(configFile)
+		if e != nil {
+			log.Fatal().Msgf("Failed to create new config file %s %v", configFile, e)
+		}
+		cfile.Close()
 	}
 
 	configParser, err := configparser.NewConfigParserFromFile(configFile)

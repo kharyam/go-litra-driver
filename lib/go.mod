@@ -1,6 +1,6 @@
 module github.com/kharyam/go-litra-driver/lib
 
-go 1.21.7
+go 1.20
 
 require (
 	github.com/google/gousb v1.1.3 // indirect

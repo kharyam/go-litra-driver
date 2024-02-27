@@ -1,6 +1,6 @@
 module github.com/kharyam/go-litra-driver/cli
 
-go 1.21.7
+go 1.20
 
 require github.com/spf13/cobra v1.8.0
 

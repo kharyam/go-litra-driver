@@ -24,8 +24,8 @@ jobs:
     - name: Build config
       run: go build -v ./config
 
-    - name: Install libusb
-      run: sudo apt-get install -y libusb-1.0-0 libusb-1.0-0-dev
+    - name: Install libudev
+      run: sudo apt-get install -y libudev-dev
 
     - name: Build lib
       run: go build -v ./lib

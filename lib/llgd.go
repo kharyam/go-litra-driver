@@ -19,6 +19,8 @@ const LightOnCode = 0x01
 const MinBrightness = 0x14
 const MaxBrightness = 0xfa
 
+var firstRun = true
+
 type litraDevice struct {
 	name      string
 	productId uint
@@ -45,7 +47,9 @@ func findDevices() []*hid.Device {
 
 	for _, value := range deviceInfos {
 		device, err := hid.Open(value.VendorID, value.ProductID, value.SerialNbr)
-		log.Info().Msgf("Found device %s", value.ProductStr)
+		if firstRun {
+			log.Info().Msgf("Found device %s", value.ProductStr)
+		}
 		if err == nil {
 			devices = append(devices, device)
 		} else {
@@ -53,6 +57,7 @@ func findDevices() []*hid.Device {
 		}
 	}
 
+	firstRun = false
 	return devices
 }
 

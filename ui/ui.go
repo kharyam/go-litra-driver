@@ -32,19 +32,12 @@ func main() {
 	// Brightness
 	brightnessLabel := widget.NewLabel("Brightness")
 	brightnessSlider := widget.NewSlider(1, 100)
-
-	brightnessSlider.OnChanged = func(brightness float64) {
-		brightnessLabel.SetText(fmt.Sprintf("Brightness %d%%", int(brightness)))
-	}
 	brightnessSlider.Step = 1
 	brightnessGroup := container.New(layout.NewVBoxLayout(), brightnessLabel, brightnessSlider)
 
 	// Temperature
 	tempLabel := widget.NewLabel("Temperature")
 	tempSlider := widget.NewSlider(2700, 6500)
-	tempSlider.OnChanged = func(temp float64) {
-		tempLabel.SetText(fmt.Sprintf("Temperature %dk", uint16(temp)))
-	}
 	tempSlider.Step = 100
 	tempGroup := container.New(layout.NewVBoxLayout(), tempLabel, tempSlider)
 
@@ -61,7 +54,7 @@ func main() {
 	})
 	profileDelete.Disable()
 	profileNew.Enable()
-	profileLabel := widget.NewLabel("Profile:")
+	profileLabel := widget.NewLabel("Preset:")
 	profileSelector := widget.NewSelect(config.GetProfileNames(), func(selection string) {
 		if selection == config.CurrentProfileName {
 			profileNew.Enable()
@@ -100,12 +93,14 @@ func main() {
 	profileGroup := container.New(layout.NewHBoxLayout(), profileLabel, profileSelector, profileNew, profileDelete)
 
 	// Callbacks
-	brightnessSlider.OnChangeEnded = func(brightness float64) {
+	brightnessSlider.OnChanged = func(brightness float64) {
 		lib.LightBrightness(int(brightness))
+		brightnessLabel.SetText(fmt.Sprintf("Brightness %d%%", int(brightness)))
 		config.AddOrUpdateProfile(profileSelector.Selected, int(brightness), -1)
 	}
-	tempSlider.OnChangeEnded = func(temp float64) {
+	tempSlider.OnChanged = func(temp float64) {
 		lib.LightTemperature(uint16(temp))
+		tempLabel.SetText(fmt.Sprintf("Temperature %dk", uint16(temp)))
 		config.AddOrUpdateProfile(profileSelector.Selected, -1, int(temp))
 	}
 

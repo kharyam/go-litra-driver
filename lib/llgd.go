@@ -48,6 +48,8 @@ func findDevices() []*hid.Device {
 		log.Info().Msgf("Found device %s", value.ProductStr)
 		if err == nil {
 			devices = append(devices, device)
+		} else {
+			log.Error().Msgf("ERROR %v", err)
 		}
 	}
 

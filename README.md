@@ -104,6 +104,16 @@ cobra-cli add temp
 
 ```bash
 export VERSION=v0.0.2
+
+cd config
+go mod tidy
+cd ../lib
+go mod tidy
+cd ../cli
+go mod tidy
+cd ../ui
+go mod tidy
+
 GOPROXY=proxy.golang.org go list -m github.com/kharyam/go-litra-driver/config@${VERSION}
 GOPROXY=proxy.golang.org go list -m github.com/kharyam/go-litra-driver/lib@${VERSION}
 GOPROXY=proxy.golang.org go list -m github.com/kharyam/go-litra-driver/cli@${VERSION}

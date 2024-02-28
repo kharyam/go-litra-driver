@@ -119,3 +119,20 @@ GOPROXY=proxy.golang.org go list -m github.com/kharyam/go-litra-driver/lib@${VER
 GOPROXY=proxy.golang.org go list -m github.com/kharyam/go-litra-driver/cli@${VERSION}
 GOPROXY=proxy.golang.org go list -m github.com/kharyam/go-litra-driver/ui@${VERSION}
 ```
+
+### Packaging
+```bash
+podman build -t kharyam/fyne-cross-images:linux build/linux
+
+cd cli
+fyne-cross linux --arch=amd64 --image=kharyam/fyne-cross-images:linux --app-id=net.kharyam.lcli
+fyne-cross windows --arch=amd64 --app-id=net.kharyam.lcli
+# TODO - Package for OSx
+#fyne-cross darwin --arch=amd64 --app-id=net.kharyam.lcli
+
+cd ../ui
+fyne-cross linux --arch=amd64 --image=kharyam/fyne-cross-images:linux --app-id=net.kharyam.lcui
+fyne-cross windows --arch=amd64 --app-id=net.kharyam.lcui
+# TODO - Package for OSx
+#fyne-cross darwin --arch=amd64 --app-id=net.kharyam.lcui
+```

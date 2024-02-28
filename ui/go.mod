@@ -5,7 +5,7 @@ go 1.20
 require (
 	fyne.io/fyne/v2 v2.4.4
 	github.com/kharyam/go-litra-driver/config v0.0.0-20240227171942-663b0dc31257
-	github.com/kharyam/go-litra-driver/lib v0.0.0-20240227171942-663b0dc31257
+	github.com/kharyam/go-litra-driver/lib v0.0.0-20240228141944-8e5189c15537
 )
 
 require (
@@ -22,7 +22,6 @@ require (
 	github.com/go-text/render v0.0.0-20230619120952-35bccb6164b8 // indirect
 	github.com/go-text/typesetting v0.1.0 // indirect
 	github.com/godbus/dbus/v5 v5.1.0 // indirect
-	github.com/google/gousb v1.1.3 // indirect
 	github.com/gopherjs/gopherjs v1.17.2 // indirect
 	github.com/jsummers/gobmp v0.0.0-20151104160322-e2ba15ffa76e // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
@@ -31,6 +30,7 @@ require (
 	github.com/rs/zerolog v1.32.0 // indirect
 	github.com/srwiley/oksvg v0.0.0-20221011165216-be6e8873101c // indirect
 	github.com/srwiley/rasterx v0.0.0-20220730225603-2ab79fcdd4ef // indirect
+	github.com/sstallion/go-hid v0.14.1 // indirect
 	github.com/stretchr/testify v1.8.4 // indirect
 	github.com/tevino/abool v1.2.0 // indirect
 	github.com/yuin/goldmark v1.5.5 // indirect

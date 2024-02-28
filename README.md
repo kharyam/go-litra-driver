@@ -114,10 +114,7 @@ go mod tidy
 cd ../ui
 go mod tidy
 
-GOPROXY=proxy.golang.org go list -m github.com/kharyam/go-litra-driver/config@${VERSION}
-GOPROXY=proxy.golang.org go list -m github.com/kharyam/go-litra-driver/lib@${VERSION}
-GOPROXY=proxy.golang.org go list -m github.com/kharyam/go-litra-driver/cli@${VERSION}
-GOPROXY=proxy.golang.org go list -m github.com/kharyam/go-litra-driver/ui@${VERSION}
+GOPROXY=proxy.golang.org go list -m github.com/kharyam/go-litra-driver@${VERSION}
 ```
 
 ### Packaging

@@ -3,9 +3,11 @@ package main
 import (
 	"fmt"
 
+	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
+	"fyne.io/fyne/v2/driver/desktop"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 	"github.com/kharyam/go-litra-driver/config"
@@ -13,9 +15,32 @@ import (
 )
 
 func main() {
-	a := app.New()
-	w := a.NewWindow("Litra Controller")
+	application := app.NewWithID("net.khary.lcui")
+	mainWindow := application.NewWindow("Litra Controller")
 
+	if desk, ok := application.(desktop.App); ok {
+		systrayMenu := fyne.NewMenu("LitraController",
+			fyne.NewMenuItem("Show", func() {
+				mainWindow.Show()
+			}),
+			fyne.NewMenuItem("Hide", func() {
+				mainWindow.Hide()
+			}),
+			fyne.NewMenuItem("Off", func() {
+				lib.LightOff()
+			}),
+			fyne.NewMenuItem("On", func() {
+				lib.LightOn()
+			}),
+		)
+		desk.SetSystemTrayMenu(systrayMenu)
+	}
+
+	mainWindow.SetCloseIntercept(func() {
+		mainWindow.Hide()
+	})
+
+	// Power
 	powerRadio := widget.NewRadioGroup([]string{"Off", "On"}, func(power string) {
 		if power == "Off" {
 			lib.LightOff()
@@ -23,8 +48,6 @@ func main() {
 			lib.LightOn()
 		}
 	})
-
-	// Power
 	powerRadio.Horizontal = true
 	powerLabel := widget.NewLabel("Power")
 	powerGroup := container.New(layout.NewHBoxLayout(), powerLabel, powerRadio)
@@ -40,10 +63,6 @@ func main() {
 	tempSlider := widget.NewSlider(2700, 6500)
 	tempSlider.Step = 100
 	tempGroup := container.New(layout.NewVBoxLayout(), tempLabel, tempSlider)
-
-	exitButton := widget.NewButton("Exit", func() {
-		a.Quit()
-	})
 
 	// Profiles
 	profileNew := widget.NewButton("New...", func() {
@@ -79,7 +98,7 @@ func main() {
 				profileSelector.SetOptions(config.GetProfileNames())
 				profileSelector.SetSelected(config.CurrentProfileName)
 			}
-		}, w)
+		}, mainWindow)
 	}
 
 	profileNew.OnTapped = func() {
@@ -87,10 +106,15 @@ func main() {
 			config.AddOrUpdateProfile(profileName, int(brightnessSlider.Value), int(tempSlider.Value))
 			profileSelector.SetOptions(config.GetProfileNames())
 			profileSelector.SetSelected(profileName)
-		}, w)
+		}, mainWindow)
 	}
 	profileSelector.SetSelected(config.CurrentProfileName)
 	profileGroup := container.New(layout.NewHBoxLayout(), profileLabel, profileSelector, profileNew, profileDelete)
+
+	// Exit
+	exitButton := widget.NewButton("Exit", func() {
+		application.Quit()
+	})
 
 	// Callbacks
 	brightnessSlider.OnChanged = func(brightness float64) {
@@ -114,7 +138,7 @@ func main() {
 	// Add all widgets to the container
 	mainGroup := container.New(layout.NewVBoxLayout(), powerGroup, profileGroup, brightnessGroup, tempGroup, exitButton)
 
-	w.SetContent(mainGroup)
+	mainWindow.SetContent(mainGroup)
 
-	w.ShowAndRun()
+	mainWindow.ShowAndRun()
 }

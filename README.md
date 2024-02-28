@@ -1,4 +1,4 @@
-![Go workflow](https://github.com/kharyam/go-litra-driver/actions/workflows/go.yml/badge.svg)
+![Go workflow](https://github.com/kharyam/go-litra-driver/actions/workflows/go.yml/badge.svg) [![Go Report Card - config](https://goreportcard.com/badge/github.com/kharyam/go-litra-driver/config)](https://goreportcard.com/report/github.com/kharyam/go-litra-driver/config)[![Go Report Card - lib](https://goreportcard.com/badge/github.com/kharyam/go-litra-driver/lib)](https://goreportcard.com/report/github.com/kharyam/go-litra-driver/lib)[![Go Report Card - cli](https://goreportcard.com/badge/github.com/kharyam/go-litra-driver/cli)](https://goreportcard.com/report/github.com/kharyam/go-litra-driver/cli)[![Go Report Card - ui](https://goreportcard.com/badge/github.com/kharyam/go-litra-driver/ui)](https://goreportcard.com/report/github.com/kharyam/go-litra-driver/ui)
 # Go utility for Litra Glow and Beam
 
 ## Introduction
@@ -76,9 +76,6 @@ lcli off
 
 ```bash
 
-# Linux
-sudo apt-get install -y libusb-dev libusb-1.0-0-dev
-
 git clone git@github.com:kharyam/go-litra-driver.git
 cd go-litra-driver
 go build -v ./config
@@ -101,4 +98,14 @@ cobra-cli add on
 cobra-cli add off
 cobra-cli add bright
 cobra-cli add temp
+```
+
+### Publishing
+
+```bash
+export VERSION=v0.0.2
+GOPROXY=proxy.golang.org go list -m github.com/kharyam/go-litra-driver/config@${VERSION}
+GOPROXY=proxy.golang.org go list -m github.com/kharyam/go-litra-driver/lib@${VERSION}
+GOPROXY=proxy.golang.org go list -m github.com/kharyam/go-litra-driver/cli@${VERSION}
+GOPROXY=proxy.golang.org go list -m github.com/kharyam/go-litra-driver/ui@${VERSION}
 ```

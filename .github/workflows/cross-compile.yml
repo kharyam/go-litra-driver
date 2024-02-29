@@ -28,7 +28,7 @@ jobs:
     - name: Cross Build CLI
       uses: crazy-max/ghaction-xgo@v3
       with:
-        pkg: cli
+        working_dir: ./cli
         xgo_version: latest
         go_version: 1.21
         dest: build

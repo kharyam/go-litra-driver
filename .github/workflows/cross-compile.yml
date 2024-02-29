@@ -17,7 +17,7 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v4
       with:
-        go-version: '1.20'
+        go-version: '1.21'
 
     - name: Install libudev
       run: sudo apt-get install -y libudev-dev
@@ -30,7 +30,7 @@ jobs:
       with:
         pkg: cli
         xgo_version: latest
-        go_version: 1.20
+        go_version: 1.21
         dest: build
         prefix: lcli
         targets: windows/amd64,linux/amd64,linux/arm64,darwin/arm64

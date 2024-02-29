@@ -1,0 +1,35 @@
+# This is a basic workflow that is manually triggered
+
+name: Cross Compile (Testing)
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.20'
+
+    - name: Install libudev
+      run: sudo apt-get install -y libudev-dev
+
+    - name: Install X dependencies
+      run: sudo apt-get install -y libgl1-mesa-dev xorg-dev
+
+    - name: Generate build files
+      uses: thatisuday/go-cross-build@v1
+      with:
+          platforms: 'linux/amd64, darwin/amd64, windows/amd64'
+          package: 'cli'
+          name: 'lcli'
+          compress: 'true'
+          dest: 'dist'

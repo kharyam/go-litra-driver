@@ -1,16 +1,14 @@
-# This workflow will build a golang project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
+# This is a basic workflow that is manually triggered
 
-name: Cross Compile
+name: Cross Compile (Testing)
 
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
 on:
-  push:
-    branches: [ "features/system-tray" ]
-#  pull_request:
-#    branches: [ "main" ]
+  workflow_dispatch:
 
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-
   build:
     runs-on: ubuntu-latest
     steps:
@@ -19,19 +17,24 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v4
       with:
-        go-version: '1.20'
-
+        go-version: '1.21'
     - name: Install libudev
       run: sudo apt-get install -y libudev-dev
 
     - name: Install X dependencies
       run: sudo apt-get install -y libgl1-mesa-dev xorg-dev
-
-    - name: Generate build files
-      uses: thatisuday/go-cross-build@v1
+    - name: Cross Build CLI
+      uses: crazy-max/ghaction-xgo@v3
       with:
-          platforms: 'linux/amd64, darwin/amd64, windows/amd64'
-          package: 'cli'
-          name: 'lcli'
-          compress: 'true'
-          dest: 'dist'
+        working_dir: ./cli
+        xgo_version: latest
+        go_version: 1.21
+        dest: build
+        prefix: lcli
+        targets: windows/amd64,linux/amd64,linux/arm64,darwin/arm64
+        v: true
+        x: false
+        race: false
+        ldflags: -s -w
+        buildmode: default
+        trimpath: true

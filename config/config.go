@@ -95,7 +95,7 @@ func DeleteProfile(profileName string) {
 	}
 }
 
-// ReadProfile will read the brightness and temperature settnigs from a profile
+// ReadProfile will read the brightness and temperature settings from a profile
 func ReadProfile(profileName string) (brightness int, temperature int) {
 	parser, _ := getConfig()
 

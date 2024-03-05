@@ -49,11 +49,15 @@ Usage:
 
 Available Commands:
   bright      Sets the brightness level (0-100)
+  brightdown  Decrements the brightness by the amount specified
+  brightup    Increments the brightness by the amount specified
   completion  Generate the autocompletion script for the specified shell
   help        Help about any command
   off         Turn lights off
   on          Turn lights on
   temp        Sets the temperature of the lights (2700 - 6500)
+  tempdown    Decrements the temperature by the amount specified
+  tempup      Increments the temperature by the amount specified
 
 Flags:
   -h, --help     help for cli
@@ -67,6 +71,8 @@ Sample Usage
 lcli on
 lcli bright 10
 lcli temp 6500
+lcli brightup 30
+lcli tempdown 2000
 lcli off
 ```
 

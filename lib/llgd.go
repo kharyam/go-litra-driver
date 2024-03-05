@@ -48,7 +48,7 @@ func findDevices() []*hid.Device {
 	for _, value := range deviceInfos {
 		device, err := hid.Open(value.VendorID, value.ProductID, value.SerialNbr)
 		if firstRun {
-			log.Info().Msgf("Found device %s", value.ProductStr)
+			log.Debug().Msgf("Found device %s", value.ProductStr)
 		}
 		if err == nil {
 			devices = append(devices, device)
@@ -99,6 +99,32 @@ func LightBrightness(level int) {
 	config.UpdateCurrentState(level, -1)
 }
 
+// LightBrightDown decreases the brightness by the amount specified
+func LightBrightDown(inc int) {
+
+	brightness, _ := config.ReadCurrentState()
+	brightness -= inc
+
+	if brightness < 1 {
+		brightness = 0
+	}
+
+	LightBrightness(brightness)
+}
+
+// LightBrightUp increases the brightness by the amount specified
+func LightBrightUp(inc int) {
+
+	brightness, _ := config.ReadCurrentState()
+	brightness += inc
+
+	if brightness > 100 {
+		brightness = 100
+	}
+
+	LightBrightness(brightness)
+}
+
 // LightTemperature sets a light temperature between 2700 and 6500
 func LightTemperature(temp uint16) {
 
@@ -111,4 +137,30 @@ func LightTemperature(temp uint16) {
 
 	commandDevices(bytes)
 	config.UpdateCurrentState(-1, int(temp))
+}
+
+// LightTempDown decreases the temperature by the amount specified
+func LightTempDown(inc int) {
+
+	_, temp := config.ReadCurrentState()
+	temp -= inc
+
+	if temp < 2700 {
+		temp = 2700
+	}
+
+	LightTemperature(uint16(temp))
+}
+
+// LightTempUp increases the temperature by the amount specified
+func LightTempUp(inc int) {
+
+	_, temp := config.ReadCurrentState()
+	temp += inc
+
+	if temp > 6500 {
+		temp = 6500
+	}
+
+	LightTemperature(uint16(temp))
 }

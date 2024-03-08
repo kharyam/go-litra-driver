@@ -1,5 +1,8 @@
+
+
 ![Go workflow](https://github.com/kharyam/go-litra-driver/actions/workflows/go.yml/badge.svg) [![Go Report Card - config](https://goreportcard.com/badge/github.com/kharyam/go-litra-driver/config)](https://goreportcard.com/report/github.com/kharyam/go-litra-driver/config)[![Go Report Card - lib](https://goreportcard.com/badge/github.com/kharyam/go-litra-driver/lib)](https://goreportcard.com/report/github.com/kharyam/go-litra-driver/lib)[![Go Report Card - cli](https://goreportcard.com/badge/github.com/kharyam/go-litra-driver/cli)](https://goreportcard.com/report/github.com/kharyam/go-litra-driver/cli)[![Go Report Card - ui](https://goreportcard.com/badge/github.com/kharyam/go-litra-driver/ui)](https://goreportcard.com/report/github.com/kharyam/go-litra-driver/ui)
-# Go utility for Litra Glow and Beam
+
+# <img src="ui/Icon.png" alt="logo" width="200"/> Go utility for Litra Glow and Beam
 
 ## Introduction
 

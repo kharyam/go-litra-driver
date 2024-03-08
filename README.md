@@ -3,7 +3,7 @@
 ![Go workflow](https://github.com/kharyam/go-litra-driver/actions/workflows/go.yml/badge.svg) [![Go Report Card - config](https://goreportcard.com/badge/github.com/kharyam/go-litra-driver/config)](https://goreportcard.com/report/github.com/kharyam/go-litra-driver/config)[![Go Report Card - lib](https://goreportcard.com/badge/github.com/kharyam/go-litra-driver/lib)](https://goreportcard.com/report/github.com/kharyam/go-litra-driver/lib)[![Go Report Card - cli](https://goreportcard.com/badge/github.com/kharyam/go-litra-driver/cli)](https://goreportcard.com/report/github.com/kharyam/go-litra-driver/cli)[![Go Report Card - ui](https://goreportcard.com/badge/github.com/kharyam/go-litra-driver/ui)](https://goreportcard.com/report/github.com/kharyam/go-litra-driver/ui)
 
 # <img src="lcui/Icon.png" alt="logo" width="200"/> Go utility for Litra Glow and Beam
-)
+
 ## Introduction
 
 After purchasing a [Logitech Litra Glow](https://www.logitech.com/en-us/products/lighting/litra-glow.946-000001.html) I was unable to find any support for linux. [I created a python project](https://github.com/kharyam/litra-driver) which reverse-engineered the basic functionality of the litra glow so that we can control it via USB without using the physical buttons on the device. It also now supports the [Logitech Litra Beam](https://www.logitech.com/en-us/products/lighting/litra-beam.946-000006.html). This project is the port from python to go.

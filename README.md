@@ -123,10 +123,6 @@ go mod tidy
 cd ../lcui
 go mod tidy
 
-GOPROXY=proxy.golang.org go list -m github.com/kharyam/go-litra-driver/config@${VERSION}
-GOPROXY=proxy.golang.org go list -m github.com/kharyam/go-litra-driver/lib@${VERSION}
-GOPROXY=proxy.golang.org go list -m github.com/kharyam/go-litra-driver/lcli@${VERSION}
-GOPROXY=proxy.golang.org go list -m github.com/kharyam/go-litra-driver/lcui@${VERSION}
 GOPROXY=proxy.golang.org go list -m github.com/kharyam/go-litra-driver@${VERSION}
 ```
 

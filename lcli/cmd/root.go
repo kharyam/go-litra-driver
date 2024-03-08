@@ -29,7 +29,7 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "cli",
+	Use:   "lcli",
 	Short: "Control Litra Glow and Beam Devices",
 	Long: `This command line interface allows you to control a litra Glow or Beam 
 device using the commands described below.`,
@@ -52,7 +52,7 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 
-	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.cli.yaml)")
+	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.lcli.yaml)")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.

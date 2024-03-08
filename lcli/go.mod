@@ -1,6 +1,6 @@
-module github.com/kharyam/go-litra-driver/cli
+module github.com/kharyam/go-litra-driver/lcli
 
-go 1.20
+go 1.21
 
 require (
 	github.com/kharyam/go-litra-driver/lib v0.0.0-20240228141944-8e5189c15537

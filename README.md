@@ -48,7 +48,7 @@ This command line interface allows you to control a litra Glow or Beam
 device using the commands described below.
 
 Usage:
-  cli [command]
+  lcli [command]
 
 Available Commands:
   bright      Sets the brightness level (0-100)
@@ -89,8 +89,8 @@ git clone git@github.com:kharyam/go-litra-driver.git
 cd go-litra-driver
 go build -v ./config
 go build -v ./lib
-go build -o lcli -v ./cli
-go build -o lcui -v ./ui
+go build -o lcli -v ./lcli
+go build -o lcui -v ./lcui
 ```
 
 ### Cobra Config (for future reference)
@@ -118,11 +118,15 @@ cd config
 go mod tidy
 cd ../lib
 go mod tidy
-cd ../cli
+cd ../lcli
 go mod tidy
-cd ../ui
+cd ../lcui
 go mod tidy
 
+GOPROXY=proxy.golang.org go list -m github.com/kharyam/go-litra-driver/config@${VERSION}
+GOPROXY=proxy.golang.org go list -m github.com/kharyam/go-litra-driver/lib@${VERSION}
+GOPROXY=proxy.golang.org go list -m github.com/kharyam/go-litra-driver/lcli@${VERSION}
+GOPROXY=proxy.golang.org go list -m github.com/kharyam/go-litra-driver/lcui@${VERSION}
 GOPROXY=proxy.golang.org go list -m github.com/kharyam/go-litra-driver@${VERSION}
 ```
 
@@ -130,15 +134,15 @@ GOPROXY=proxy.golang.org go list -m github.com/kharyam/go-litra-driver@${VERSION
 ```bash
 podman build -t kharyam/fyne-cross-images:linux build/linux
 
-cd cli
+cd lcli
 fyne-cross linux --arch=amd64 --image=kharyam/fyne-cross-images:linux --app-id=net.kharyam.lcli
 fyne-cross windows --arch=amd64 --app-id=net.kharyam.lcli
-# TODO - Package for OSx
+# TODO - Package for OSX
 #fyne-cross darwin --arch=amd64 --app-id=net.kharyam.lcli
 
-cd ../ui
+cd ../lcui
 fyne-cross linux --arch=amd64 --image=kharyam/fyne-cross-images:linux --app-id=net.kharyam.lcui
 fyne-cross windows --arch=amd64 --app-id=net.kharyam.lcui
-# TODO - Package for OSx
+# TODO - Package for OSX
 #fyne-cross darwin --arch=amd64 --app-id=net.kharyam.lcui
 ```

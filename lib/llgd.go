@@ -38,6 +38,10 @@ func findDevices() []hid.Device {
 	var deviceInfos []hid.DeviceInfo
 	var devices []hid.Device
 
+	if !hid.Supported() {
+		log.Fatal().Msgf("HID Library reports platform is not supported")
+	}
+
 	for i := 0; i < len(litraProducts); i++ {
 		deviceInfosList, err := hid.Enumerate(uint16(VendorId), uint16(litraProducts[i].productId))
 		if err != nil {

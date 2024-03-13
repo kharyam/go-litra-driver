@@ -24,9 +24,6 @@ jobs:
     - name: Build config
       run: go build -v ./config
 
-    - name: Install libudev
-      run: sudo apt-get install -y libudev-dev
-
     - name: Build lib
       run: go build -v ./lib
 

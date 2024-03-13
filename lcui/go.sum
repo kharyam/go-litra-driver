@@ -202,10 +202,16 @@ github.com/jstemmer/go-junit-report v0.9.1/go.mod h1:Brl9GWCQeLvo8nXZwPNNblvFj/X
 github.com/jsummers/gobmp v0.0.0-20151104160322-e2ba15ffa76e h1:LvL4XsI70QxOGHed6yhQtAU34Kx3Qq2wwBzGFKY8zKk=
 github.com/jsummers/gobmp v0.0.0-20151104160322-e2ba15ffa76e/go.mod h1:kLgvv7o6UM+0QSf0QjAse3wReFDsb9qbZJdfexWlrQw=
 github.com/jtolds/gls v4.20.0+incompatible/go.mod h1:QJZ7F/aHp+rZTRtaJ1ow/lLfFfVYBRgL+9YlvaHOwJU=
+github.com/karalabe/hid v1.0.1-0.20240306101548-573246063e52 h1:msKODTL1m0wigztaqILOtla9HeW1ciscYG4xjLtvk5I=
+github.com/karalabe/hid v1.0.1-0.20240306101548-573246063e52/go.mod h1:qk1sX/IBgppQNcGCRoj90u6EGC056EBoIc1oEjCWla8=
 github.com/kharyam/go-litra-driver/config v0.0.0-20240227171942-663b0dc31257 h1:FH41qtb58AGxiaFksHEKaYFVy45A65YfWfsvCbYS914=
 github.com/kharyam/go-litra-driver/config v0.0.0-20240227171942-663b0dc31257/go.mod h1:O1I43BC0Qk9VsuQvARqPqTIrL5QdSAGz4CQdkF/J/Uc=
 github.com/kharyam/go-litra-driver/lib v0.0.0-20240228141944-8e5189c15537 h1:jR+zElS3RO2R5nhACgk+JXCOki4f0D9EnNOnqg5CP70=
 github.com/kharyam/go-litra-driver/lib v0.0.0-20240228141944-8e5189c15537/go.mod h1:Al+LbQB1LFw7wFJ+1T4E0PyqaZACVcwwzuGH7/MNe9U=
+github.com/kharyam/go-litra-driver/lib v0.0.0-20240311171130-30037bba045e h1:mreli0Lio+4U60bFRBRt1s303ADyGfPqP+1MBgdYvqY=
+github.com/kharyam/go-litra-driver/lib v0.0.0-20240311171130-30037bba045e/go.mod h1:+o3+y6xz5KzUqTuhcesAE2pmiSo2bC6aZpeuKBQXGXI=
+github.com/kharyam/go-litra-driver/lib v0.0.0-20240313130109-a907ca9f7d1c h1:jxqYZfxhx1GpeOkQq2xmL2Rfxsd3VJbrlxi+MU1XH1k=
+github.com/kharyam/go-litra-driver/lib v0.0.0-20240313130109-a907ca9f7d1c/go.mod h1:4RxUKLTstexh1YKoWTB28lI3qOZFh2rS4ZYTsouXuO8=
 github.com/kisielk/errcheck v1.5.0/go.mod h1:pFxgyoBC7bSaBwPgfKdkLd5X25qrDl4LWUI2bnpBCr8=
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=
 github.com/kr/fs v0.1.0/go.mod h1:FFnZGqtBN9Gxj7eW1uZ42v5BccTP0vu6NEaFoC2HwRg=

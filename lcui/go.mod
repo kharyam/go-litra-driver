@@ -5,7 +5,7 @@ go 1.21
 require (
 	fyne.io/fyne/v2 v2.4.4
 	github.com/kharyam/go-litra-driver/config v0.0.0-20240227171942-663b0dc31257
-	github.com/kharyam/go-litra-driver/lib v0.0.0-20240228141944-8e5189c15537
+	github.com/kharyam/go-litra-driver/lib v0.0.0-20240313130109-a907ca9f7d1c
 )
 
 require (
@@ -24,6 +24,7 @@ require (
 	github.com/godbus/dbus/v5 v5.1.0 // indirect
 	github.com/gopherjs/gopherjs v1.17.2 // indirect
 	github.com/jsummers/gobmp v0.0.0-20151104160322-e2ba15ffa76e // indirect
+	github.com/karalabe/hid v1.0.1-0.20240306101548-573246063e52 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect

@@ -7,10 +7,10 @@ import (
 	"math"
 	"os"
 
+	"github.com/karalabe/hid"
 	"github.com/kharyam/go-litra-driver/config"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
-	"github.com/sstallion/go-hid"
 )
 
 const VendorId = 0x046d
@@ -33,22 +33,27 @@ var litraProducts = [2]litraDevice{
 		0xc901},
 }
 
-func findDevices() []*hid.Device {
+func findDevices() []hid.Device {
 
-	var devices []*hid.Device
-	var deviceInfos = make(map[string]*hid.DeviceInfo)
+	var deviceInfos []hid.DeviceInfo
+	var devices []hid.Device
 
 	for i := 0; i < len(litraProducts); i++ {
-		hid.Enumerate(VendorId, uint16(litraProducts[i].productId), func(info *hid.DeviceInfo) error {
-			deviceInfos[info.SerialNbr] = info
-			return nil
-		})
+		deviceInfosList, err := hid.Enumerate(uint16(VendorId), uint16(litraProducts[i].productId))
+		if err != nil {
+			log.Fatal().Msgf("Failed due to %v", err)
+		}
+
+		for i := 0; i < len(deviceInfosList); i++ {
+			deviceInfos = append(deviceInfos, deviceInfosList[i])
+		}
 	}
 
-	for _, value := range deviceInfos {
-		device, err := hid.Open(value.VendorID, value.ProductID, value.SerialNbr)
+	for _, devInfo := range deviceInfos {
+		device, err := devInfo.Open()
 		if firstRun {
-			log.Debug().Msgf("Found device %s", value.ProductStr)
+			// Bug? Serial/Product not populated by hid library
+			log.Debug().Msgf("Found device %s", devInfo.Product)
 		}
 		if err == nil {
 			devices = append(devices, device)

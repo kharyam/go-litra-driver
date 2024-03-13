@@ -3,9 +3,9 @@ module github.com/kharyam/go-litra-driver/lib
 go 1.21
 
 require (
+	github.com/karalabe/hid v1.0.1-0.20240306101548-573246063e52
 	github.com/kharyam/go-litra-driver/config v0.0.0-20240227171942-663b0dc31257
 	github.com/rs/zerolog v1.32.0
-	github.com/sstallion/go-hid v0.14.1
 )
 
 require (

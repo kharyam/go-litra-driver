@@ -206,10 +206,6 @@ github.com/karalabe/hid v1.0.1-0.20240306101548-573246063e52 h1:msKODTL1m0wigzta
 github.com/karalabe/hid v1.0.1-0.20240306101548-573246063e52/go.mod h1:qk1sX/IBgppQNcGCRoj90u6EGC056EBoIc1oEjCWla8=
 github.com/kharyam/go-litra-driver/config v0.0.0-20240227171942-663b0dc31257 h1:FH41qtb58AGxiaFksHEKaYFVy45A65YfWfsvCbYS914=
 github.com/kharyam/go-litra-driver/config v0.0.0-20240227171942-663b0dc31257/go.mod h1:O1I43BC0Qk9VsuQvARqPqTIrL5QdSAGz4CQdkF/J/Uc=
-github.com/kharyam/go-litra-driver/lib v0.0.0-20240228141944-8e5189c15537 h1:jR+zElS3RO2R5nhACgk+JXCOki4f0D9EnNOnqg5CP70=
-github.com/kharyam/go-litra-driver/lib v0.0.0-20240228141944-8e5189c15537/go.mod h1:Al+LbQB1LFw7wFJ+1T4E0PyqaZACVcwwzuGH7/MNe9U=
-github.com/kharyam/go-litra-driver/lib v0.0.0-20240311171130-30037bba045e h1:mreli0Lio+4U60bFRBRt1s303ADyGfPqP+1MBgdYvqY=
-github.com/kharyam/go-litra-driver/lib v0.0.0-20240311171130-30037bba045e/go.mod h1:+o3+y6xz5KzUqTuhcesAE2pmiSo2bC6aZpeuKBQXGXI=
 github.com/kharyam/go-litra-driver/lib v0.0.0-20240313130109-a907ca9f7d1c h1:jxqYZfxhx1GpeOkQq2xmL2Rfxsd3VJbrlxi+MU1XH1k=
 github.com/kharyam/go-litra-driver/lib v0.0.0-20240313130109-a907ca9f7d1c/go.mod h1:4RxUKLTstexh1YKoWTB28lI3qOZFh2rS4ZYTsouXuO8=
 github.com/kisielk/errcheck v1.5.0/go.mod h1:pFxgyoBC7bSaBwPgfKdkLd5X25qrDl4LWUI2bnpBCr8=
@@ -276,8 +272,6 @@ github.com/srwiley/oksvg v0.0.0-20221011165216-be6e8873101c h1:km8GpoQut05eY3GiY
 github.com/srwiley/oksvg v0.0.0-20221011165216-be6e8873101c/go.mod h1:cNQ3dwVJtS5Hmnjxy6AgTPd0Inb3pW05ftPSX7NZO7Q=
 github.com/srwiley/rasterx v0.0.0-20220730225603-2ab79fcdd4ef h1:Ch6Q+AZUxDBCVqdkI8FSpFyZDtCVBc2VmejdNrm5rRQ=
 github.com/srwiley/rasterx v0.0.0-20220730225603-2ab79fcdd4ef/go.mod h1:nXTWP6+gD5+LUJ8krVhhoeHjvHTutPxMYl5SvkcnJNE=
-github.com/sstallion/go-hid v0.14.1 h1:shbZlKqv5fr1KnxwqtLEPGkOoA6OSUWTx9TblegATvc=
-github.com/sstallion/go-hid v0.14.1/go.mod h1:fPKp4rqx0xuoTV94gwKojsPG++KNKhxuU88goGuGM7I=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/objx v0.4.0/go.mod h1:YvHI0jy2hoMjB+UWwv71VJQ9isScKT/TqJzVSSt89Yw=
 github.com/stretchr/testify v1.2.2/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXfy6kDkUVs=

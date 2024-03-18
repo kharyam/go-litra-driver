@@ -45,6 +45,25 @@ go mod tidy
 GOPROXY=proxy.golang.org go list -m github.com/kharyam/go-litra-driver@${VERSION}
 ```
 
+## Cross Compiling Notes
+
+### To Wiindows from Fedora
+
+```bash
+sudo dnf install -y mingw64-cc
+```
+
+```bash
+CGO_ENABLED=1 GOOS=windows GOARCH=amd64 CC=/usr/bin/x86_64-w64-mingw32-gcc go build -o bin/lcli-amd64.exe
+```
+
+Reference:
+* https://fedoraproject.org/wiki/MinGW/Tutorial
+
+### To OSX from Fedora (Todo...)
+
+This may not be worth the effort, see https://github.com/tpoechtrager/osxcross
+
 ## Packaging
 ```bash
 podman build -t kharyam/fyne-cross-images:linux build/linux

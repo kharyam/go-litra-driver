@@ -16,6 +16,5 @@ require (
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/rs/zerolog v1.32.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/sstallion/go-hid v0.14.1 // indirect
 	golang.org/x/sys v0.12.0 // indirect
 )

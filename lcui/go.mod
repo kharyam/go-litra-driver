@@ -38,7 +38,6 @@ require (
 	github.com/srwiley/rasterx v0.0.0-20220730225603-2ab79fcdd4ef // indirect
 	github.com/sstallion/go-hid v0.14.1 // indirect
 	github.com/stretchr/testify v1.9.0 // indirect
-	github.com/tevino/abool v1.2.0 // indirect
 	github.com/yuin/goldmark v1.7.8 // indirect
 	golang.org/x/image v0.22.0 // indirect
 	golang.org/x/mobile v0.0.0-20241108191957-fa514ef75a0f // indirect
@@ -46,5 +45,4 @@ require (
 	golang.org/x/sys v0.27.0 // indirect
 	golang.org/x/text v0.20.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	honnef.co/go/js/dom v0.0.0-20231112215516-51f43a291193 // indirect
 )

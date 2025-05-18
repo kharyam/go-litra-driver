@@ -43,10 +43,10 @@ lcui
 
 ## The CLI
 
-```bash
 This command line interface allows you to control a litra Glow or Beam 
-device using the commands described below.
+device using the commands described below. Since the current state of the light cannot be read directly from the device, the application stores the last set state in a configuration file.
 
+```bash
 Usage:
   lcli [command]
 
@@ -61,10 +61,10 @@ Available Commands:
   temp        Sets the temperature of the lights (2700 - 6500)
   tempdown    Decrements the temperature by the amount specified
   tempup      Increments the temperature by the amount specified
+  toggle      Toggles the light on or off
 
 Flags:
   -h, --help     help for lcli
-  -t, --toggle   Help message for toggle
 
 Use "lcli [command] --help" for more information about a command.
 ```
@@ -77,4 +77,5 @@ lcli temp 6500
 lcli brightup 30
 lcli tempdown 2000
 lcli off
+lcli toggle
 ```

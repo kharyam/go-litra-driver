@@ -17,6 +17,7 @@ import (
 const CurrentProfileName = "current"
 const Bright = "brightness"
 const Temp = "temperature"
+const Power = "power"
 
 // getConfig loads the config file
 func getConfig() (*configparser.ConfigParser, string) {
@@ -66,7 +67,7 @@ func exists(path string) (bool, error) {
 }
 
 // AddOrUpdateProfile will create a new profile or update an existing profile
-func AddOrUpdateProfile(profileName string, brightness int, temp int) {
+func AddOrUpdateProfile(profileName string, brightness int, temp int, power int) {
 	parser, configFile := getConfig()
 	if !parser.HasSection(profileName) {
 		parser.AddSection(profileName)
@@ -77,13 +78,16 @@ func AddOrUpdateProfile(profileName string, brightness int, temp int) {
 	if temp != -1 {
 		parser.Set(profileName, Temp, strconv.Itoa(temp))
 	}
+	if power != -1 {
+		parser.Set(profileName, Power, strconv.Itoa(power))
+	}
 	parser.SaveWithDelimiter(configFile, "=")
 }
 
-// UpdateCurrentState updates the temperature and / or brightness for current state.
-// set either value to -1 to not set it in the section
-func UpdateCurrentState(brightness int, temperature int) {
-	AddOrUpdateProfile(CurrentProfileName, brightness, temperature)
+// UpdateCurrentState updates the temperature, brightness, and/or power for current state.
+// set any value to -1 to not set it in the section
+func UpdateCurrentState(brightness int, temperature int, power int) {
+	AddOrUpdateProfile(CurrentProfileName, brightness, temperature, power)
 }
 
 // DeleteProfile removes a profile from the configuration file
@@ -95,8 +99,8 @@ func DeleteProfile(profileName string) {
 	}
 }
 
-// ReadProfile will read the brightness and temperature settings from a profile
-func ReadProfile(profileName string) (brightness int, temperature int) {
+// ReadProfile will read the brightness, temperature, and power settings from a profile
+func ReadProfile(profileName string) (brightness int, temperature int, power int) {
 	parser, _ := getConfig()
 
 	brightnessString, err := parser.Get(profileName, Bright)
@@ -113,12 +117,19 @@ func ReadProfile(profileName string) (brightness int, temperature int) {
 		temperature, _ = strconv.Atoi(temperatureString)
 	}
 
-	return brightness, temperature
+	powerString, err := parser.Get(profileName, Power)
+	if err != nil {
+		power = -1
+	} else {
+		power, _ = strconv.Atoi(powerString)
+	}
+
+	return brightness, temperature, power
 
 }
 
 // Read the current state of the lights from the config file
-func ReadCurrentState() (brightness int, temperature int) {
+func ReadCurrentState() (brightness int, temperature int, power int) {
 	return ReadProfile(CurrentProfileName)
 }
 

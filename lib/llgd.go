@@ -79,6 +79,7 @@ func LightOn() {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 
 	commandDevices(bytes)
+	config.UpdateCurrentState(-1, -1, 1)
 }
 
 // LightOff turns off all detected lights
@@ -87,6 +88,7 @@ func LightOff() {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 
 	commandDevices(bytes)
+	config.UpdateCurrentState(-1, -1, 0)
 }
 
 // LightBrightness sets the brightness of all connected lights. Specify a brightness between 0 and 100
@@ -96,13 +98,13 @@ func LightBrightness(level int) {
 	var bytes = []byte{0x11, 0xff, 0x04, 0x4c, 0x00, byte(adjustedLevel), 0x00, 0x00, 0x00, 0x00,
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 	commandDevices(bytes)
-	config.UpdateCurrentState(level, -1)
+	config.UpdateCurrentState(level, -1, -1)
 }
 
 // LightBrightDown decreases the brightness by the amount specified
 func LightBrightDown(inc int) {
 
-	brightness, _ := config.ReadCurrentState()
+	brightness, _, _ := config.ReadCurrentState()
 	brightness -= inc
 
 	if brightness < 1 {
@@ -115,7 +117,7 @@ func LightBrightDown(inc int) {
 // LightBrightUp increases the brightness by the amount specified
 func LightBrightUp(inc int) {
 
-	brightness, _ := config.ReadCurrentState()
+	brightness, _, _ := config.ReadCurrentState()
 	brightness += inc
 
 	if brightness > 100 {
@@ -136,13 +138,13 @@ func LightTemperature(temp uint16) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 
 	commandDevices(bytes)
-	config.UpdateCurrentState(-1, int(temp))
+	config.UpdateCurrentState(-1, int(temp), -1)
 }
 
 // LightTempDown decreases the temperature by the amount specified
 func LightTempDown(inc int) {
 
-	_, temp := config.ReadCurrentState()
+	_, temp, _ := config.ReadCurrentState()
 	temp -= inc
 
 	if temp < 2700 {
@@ -155,7 +157,7 @@ func LightTempDown(inc int) {
 // LightTempUp increases the temperature by the amount specified
 func LightTempUp(inc int) {
 
-	_, temp := config.ReadCurrentState()
+	_, temp, _ := config.ReadCurrentState()
 	temp += inc
 
 	if temp > 6500 {

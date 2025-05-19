@@ -1,40 +1,127 @@
-# This is a basic workflow that is manually triggered
+name: Cross-platform Release
 
-name: Cross Compile (Testing)
-
-# Controls when the action will run. Workflow runs when manually triggered using the UI
-# or API.
 on:
+  push:
+    tags:
+      - 'v*'
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build:
+  build-linux-windows:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: '1.21'
-    - name: Install libudev
-      run: sudo apt-get install -y libudev-dev
+      - name: Install Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: 1.23.0
 
-    - name: Install X dependencies
-      run: sudo apt-get install -y libgl1-mesa-dev xorg-dev
-    - name: Cross Build CLI
-      uses: crazy-max/ghaction-xgo@v3
-      with:
-        working_dir: ./lcli
-        xgo_version: latest
-        go_version: 1.21
-        dest: build
-        prefix: lcli
-        targets: windows/amd64,linux/amd64,linux/arm64,darwin/arm64
-        v: true
-        x: false
-        race: false
-        ldflags: -s -w
-        buildmode: default
-        trimpath: true
+      - name: Install fyne-cross
+        run: go install github.com/fyne-io/fyne-cross@latest
+
+      - name: Build custom image
+        run: docker build -t fyne-custom:latest build/linux
+
+      - name: Build linux amd64 cli
+        run: |
+          cd lcli
+          fyne-cross linux --image=fyne-custom:latest --arch=amd64 --app-id=net.kharyam.lcli --name lcli-amd64
+          cd ..
+
+      - name: Build linux amd64 lcui
+        run: |
+          cd lcui
+          fyne-cross linux --image=fyne-custom:latest --arch=amd64 --app-id=net.kharyam.lcli --name lcui-amd64
+          cd ..
+
+      - name: Build linux arm64 cli
+        run: |
+          cd lcli
+          fyne-cross linux --image=fyne-custom:latest --arch=arm64 --app-id=net.kharyam.lcli --name lcli-arm64
+          cd ..
+
+      - name: Build linux arm64 lcui
+        run: |
+          cd lcui
+          fyne-cross linux --image=fyne-custom:latest --arch=arm64 --app-id=net.kharyam.lcli --name lcui-arm64
+          cd ..
+
+      - name: Build windows cli
+        run: |
+          cd lcli
+          fyne-cross windows --arch=amd64 --app-id=net.kharyam.lcli
+          cd ..
+
+      - name: Build windows lcui
+        run: |
+          cd lcui
+          fyne-cross windows --arch=amd64 --app-id=net.kharyam.lcui
+          cd ..
+
+      - name: Move files to dist
+        run: |
+          mkdir dist
+          find . -name "*.xz" -exec mv {} dist \;
+          find . -name "*.zip" -exec mv {} dist \;
+          echo "binaries:" ; ls dist
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-windows
+          path: dist/
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+
+      - name: Install Go and Fyne
+        run: |
+          brew install go
+          brew install create-dmg
+          go install fyne.io/tools/cmd/fyne@latest
+          mkdir dist
+      - name: Build lcli
+        run: |
+          cd lcli
+          fyne package -os darwin -icon ../lcui/Icon.png --name lcli-darwin
+          create-dmg ../dist/lcli-darwin.dmg lcli-darwin.app
+          cd ..
+      - name: Build lcui
+        run: |
+          cd lcui
+          fyne package -os darwin -icon Icon.png --name lcui-darwin
+          create-dmg ../dist/lcui-darwin.dmg lcli-darwin.app
+          cd ..
+      - name: List binaries
+        run: ls dist
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos
+          path: dist/
+
+  release:
+    needs: [build-linux-windows, build-macos]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+
+      - name: Upload release binaries
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/**
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

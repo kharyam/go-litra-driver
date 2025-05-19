@@ -16,7 +16,7 @@ go build -o lcui -v ./lcui
 ## Publishing
 
 ```bash
-export VERSION=v0.1.4
+export VERSION=v0.1.5
 
 cd config
 go get -u
@@ -54,6 +54,9 @@ GOPROXY=proxy.golang.org go list -m github.com/kharyam/go-litra-driver@${VERSION
 ```
 
 ## Packaging
+
+This is for reference - there is a [GitHub Action](.github/workflows/cross-compile.yml) to build all supported versions.
+
 ```bash
 podman build -t kharyam/fyne-cross-images:linux build/linux
 

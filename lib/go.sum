@@ -1,33 +1,11 @@
-<<<<<<< HEAD
-github.com/bigkevmcd/go-configparser v0.0.0-20230427073640-c6b631f70126 h1:uru++pUKoS/yYU3Ohq9VItZdK/cT7FFJH/UUjOlxc+s=
-github.com/bigkevmcd/go-configparser v0.0.0-20230427073640-c6b631f70126/go.mod h1:zqqfbfnDeSdRs1WihmMjSbhb2Ptw8Jbus831xoqiIec=
-github.com/bigkevmcd/go-configparser v0.0.0-20240808124832-fc81059ea0bd h1:MsTk4yo6KVYdulsDscuH4AwiZN1CyuCJAg59EWE7HPQ=
-github.com/bigkevmcd/go-configparser v0.0.0-20240808124832-fc81059ea0bd/go.mod h1:vzEQfW+A1T+AMJmTIX+SXNLNECHOM7GEinHhw0IjykI=
-||||||| 30037bb
-github.com/bigkevmcd/go-configparser v0.0.0-20230427073640-c6b631f70126 h1:uru++pUKoS/yYU3Ohq9VItZdK/cT7FFJH/UUjOlxc+s=
-github.com/bigkevmcd/go-configparser v0.0.0-20230427073640-c6b631f70126/go.mod h1:zqqfbfnDeSdRs1WihmMjSbhb2Ptw8Jbus831xoqiIec=
-=======
 github.com/bigkevmcd/go-configparser v0.0.0-20250311182818-a679eef33309 h1:h2H7P1M0rXm8LTJMhZWr3SAleTmR6vg+7PM1BkTumaw=
 github.com/bigkevmcd/go-configparser v0.0.0-20250311182818-a679eef33309/go.mod h1:vzEQfW+A1T+AMJmTIX+SXNLNECHOM7GEinHhw0IjykI=
->>>>>>> cd92ff56c0b7c311790a217bbc0bab39cf57e93f
 github.com/coreos/go-systemd/v22 v22.5.0/go.mod h1:Y58oyj3AT4RCenI/lSvhwexgC+NSVTIJ3seZv2GcEnc=
 github.com/godbus/dbus/v5 v5.0.4/go.mod h1:xhWf0FNVPg57R7Z0UbKHbJfkEywrmjJnf7w5xrFpKfA=
-<<<<<<< HEAD
-github.com/karalabe/hid v1.0.1-0.20240306101548-573246063e52 h1:msKODTL1m0wigztaqILOtla9HeW1ciscYG4xjLtvk5I=
-github.com/karalabe/hid v1.0.1-0.20240306101548-573246063e52/go.mod h1:qk1sX/IBgppQNcGCRoj90u6EGC056EBoIc1oEjCWla8=
-github.com/karalabe/hid v1.0.1-0.20240919124526-821c38d2678e h1:ryNJIEs1fyZNVwJ/Dsz7+EFZTow0ggBdnAIVo8SAs+A=
-github.com/karalabe/hid v1.0.1-0.20240919124526-821c38d2678e/go.mod h1:qk1sX/IBgppQNcGCRoj90u6EGC056EBoIc1oEjCWla8=
-github.com/kharyam/go-litra-driver/config v0.0.0-20240227171942-663b0dc31257 h1:FH41qtb58AGxiaFksHEKaYFVy45A65YfWfsvCbYS914=
-github.com/kharyam/go-litra-driver/config v0.0.0-20240227171942-663b0dc31257/go.mod h1:O1I43BC0Qk9VsuQvARqPqTIrL5QdSAGz4CQdkF/J/Uc=
-github.com/kharyam/go-litra-driver/config v0.0.0-20240311171130-30037bba045e h1:2SeMLFnTbgP7gK2DDacrVpHffjszKBi4rCGlhEho99c=
-github.com/kharyam/go-litra-driver/config v0.0.0-20240311171130-30037bba045e/go.mod h1:HqfQHtcn2r7oEwdgav2VcKacrYfnNrV2hxeUrZfGgnA=
-||||||| 30037bb
-github.com/kharyam/go-litra-driver/config v0.0.0-20240227171942-663b0dc31257 h1:FH41qtb58AGxiaFksHEKaYFVy45A65YfWfsvCbYS914=
-github.com/kharyam/go-litra-driver/config v0.0.0-20240227171942-663b0dc31257/go.mod h1:O1I43BC0Qk9VsuQvARqPqTIrL5QdSAGz4CQdkF/J/Uc=
-=======
-github.com/kharyam/go-litra-driver/config v0.0.0-20250519021828-68171012d4dc h1:Jm7XmE1GqMVOOEMUcZhPabFBYWvZIihEPpbMBaeasRQ=
-github.com/kharyam/go-litra-driver/config v0.0.0-20250519021828-68171012d4dc/go.mod h1:dagFRLzG7OSK3QHUyU+PQElnhIHVmIrh3aFQ2RJSJtU=
->>>>>>> cd92ff56c0b7c311790a217bbc0bab39cf57e93f
+github.com/karalabe/hid v1.0.0 h1:+/CIMNXhSU/zIJgnIvBD2nKHxS/bnRHhhs9xBryLpPo=
+github.com/karalabe/hid v1.0.0/go.mod h1:Vr51f8rUOLYrfrWDFlV12GGQgM5AT8sVh+2fY4MPeu8=
+github.com/kharyam/go-litra-driver/config v0.0.0-20250519114259-cd92ff56c0b7 h1:0katBmy7I34GsrsfwJxz56SkkNApaLJpB8wNFUdU5Gc=
+github.com/kharyam/go-litra-driver/config v0.0.0-20250519114259-cd92ff56c0b7/go.mod h1:dagFRLzG7OSK3QHUyU+PQElnhIHVmIrh3aFQ2RJSJtU=
 github.com/kr/pretty v0.2.1 h1:Fmg33tUaq4/8ym9TJN1x7sLJnHVwhP33CNkpYV/7rwI=
 github.com/kr/pretty v0.2.1/go.mod h1:ipq/a2n7PKx3OHsz4KJII5eveXtPO4qwEXGdVfWzfnI=
 github.com/kr/text v0.1.0 h1:45sCR5RtlFHMR4UwH9sdQ5TC8v0qDQCHnXt+kaKSTVE=
@@ -40,35 +18,13 @@ github.com/mattn/go-isatty v0.0.19/go.mod h1:W+V8PltTTMOvKvAeJH7IuucS94S2C6jfK/D
 github.com/mattn/go-isatty v0.0.20 h1:xfD0iDuEKnDkl03q4limB+vH+GxLEtL/jb4xVJSWWEY=
 github.com/mattn/go-isatty v0.0.20/go.mod h1:W+V8PltTTMOvKvAeJH7IuucS94S2C6jfK/D7dTCTo3Y=
 github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
-<<<<<<< HEAD
-github.com/rs/xid v1.5.0/go.mod h1:trrq9SKmegXys3aeAKXMUTdJsYXVwGY3RLcfgqegfbg=
-github.com/rs/zerolog v1.32.0 h1:keLypqrlIjaFsbmJOBdB/qvyF8KEtCWHwobLp5l/mQ0=
-github.com/rs/zerolog v1.32.0/go.mod h1:/7mN4D5sKwJLZQ2b/znpjC3/GQWY/xaDXUM0kKWRHss=
-github.com/rs/zerolog v1.33.0 h1:1cU2KZkvPxNyfgEmhHAz/1A9Bz+llsdYzklWFzgp0r8=
-github.com/rs/zerolog v1.33.0/go.mod h1:/7mN4D5sKwJLZQ2b/znpjC3/GQWY/xaDXUM0kKWRHss=
-||||||| 30037bb
-github.com/rs/xid v1.5.0/go.mod h1:trrq9SKmegXys3aeAKXMUTdJsYXVwGY3RLcfgqegfbg=
-github.com/rs/zerolog v1.32.0 h1:keLypqrlIjaFsbmJOBdB/qvyF8KEtCWHwobLp5l/mQ0=
-github.com/rs/zerolog v1.32.0/go.mod h1:/7mN4D5sKwJLZQ2b/znpjC3/GQWY/xaDXUM0kKWRHss=
-github.com/sstallion/go-hid v0.14.1 h1:shbZlKqv5fr1KnxwqtLEPGkOoA6OSUWTx9TblegATvc=
-github.com/sstallion/go-hid v0.14.1/go.mod h1:fPKp4rqx0xuoTV94gwKojsPG++KNKhxuU88goGuGM7I=
-=======
 github.com/rs/xid v1.6.0/go.mod h1:7XoLgs4eV+QndskICGsho+ADou8ySMSjJKDIan90Nz0=
 github.com/rs/zerolog v1.34.0 h1:k43nTLIwcTVQAncfCw4KZ2VY6ukYoZaBPNOE8txlOeY=
 github.com/rs/zerolog v1.34.0/go.mod h1:bJsvje4Z08ROH4Nhs5iH600c3IkWhwp44iRc54W6wYQ=
-github.com/sstallion/go-hid v0.14.1 h1:shbZlKqv5fr1KnxwqtLEPGkOoA6OSUWTx9TblegATvc=
-github.com/sstallion/go-hid v0.14.1/go.mod h1:fPKp4rqx0xuoTV94gwKojsPG++KNKhxuU88goGuGM7I=
->>>>>>> cd92ff56c0b7c311790a217bbc0bab39cf57e93f
 golang.org/x/sys v0.0.0-20220811171246-fbc7d0a398ab/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.6.0/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.12.0/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
-<<<<<<< HEAD
-golang.org/x/sys v0.27.0 h1:wBqf8DvsY9Y/2P8gAfPDEYNuS30J4lPHJxXSb/nJZ+s=
-golang.org/x/sys v0.27.0/go.mod h1:/VUhepiaJMQUp4+oa/7Zr1D23ma6VTLIYjOOTFZPUcA=
-||||||| 30037bb
-=======
 golang.org/x/sys v0.33.0 h1:q3i8TbbEz+JRD9ywIRlyRAQbM0qF7hu24q3teo2hbuw=
 golang.org/x/sys v0.33.0/go.mod h1:BJP2sWEmIv4KK5OTEluFJCKSidICx8ciO85XgH3Ak8k=
->>>>>>> cd92ff56c0b7c311790a217bbc0bab39cf57e93f
 gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c h1:Hei/4ADfdWqJk1ZMxUNpqntNwaWcugrBjAiHlqqRiVk=
 gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c/go.mod h1:JHkPIbrfpd72SG/EVd6muEfDQjcINNoR0C8j2r3qZ4Q=

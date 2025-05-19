@@ -43,10 +43,7 @@ func findDevices() []hid.Device {
 	}
 
 	for i := 0; i < len(litraProducts); i++ {
-		deviceInfosList, err := hid.Enumerate(uint16(VendorId), uint16(litraProducts[i].productId))
-		if err != nil {
-			log.Fatal().Msgf("Failed due to %v", err)
-		}
+		deviceInfosList := hid.Enumerate(uint16(VendorId), uint16(litraProducts[i].productId))
 
 		for i := 0; i < len(deviceInfosList); i++ {
 			deviceInfos = append(deviceInfos, deviceInfosList[i])
@@ -60,7 +57,7 @@ func findDevices() []hid.Device {
 			log.Debug().Msgf("Found device %s", devInfo.Product)
 		}
 		if err == nil {
-			devices = append(devices, device)
+			devices = append(devices, *device)
 		} else {
 			log.Error().Msgf("ERROR %v", err)
 		}

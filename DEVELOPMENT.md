@@ -6,6 +6,7 @@
 
 git clone git@github.com:kharyam/go-litra-driver.git
 cd go-litra-driver
+
 go build -v ./config
 go build -v ./lib
 go build -o lcli -v ./lcli

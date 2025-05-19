@@ -81,12 +81,12 @@ func main() {
 		} else {
 			profileNew.Disable()
 			profileDelete.Enable()
-			bright, temp := config.ReadProfile(selection)
+			bright, temp, power := config.ReadProfile(selection)
 			brightnessSlider.SetValue(float64(bright))
 			brightnessLabel.SetText(fmt.Sprintf("Brightness %d%%", int(bright)))
 			tempSlider.SetValue(float64(temp))
 			tempLabel.SetText(fmt.Sprintf("Temperature %dk", uint16(temp)))
-			config.UpdateCurrentState(bright, temp)
+			config.UpdateCurrentState(bright, temp, power)
 			lib.LightBrightness(bright)
 			lib.LightTemperature(uint16(temp))
 		}
@@ -103,7 +103,8 @@ func main() {
 
 	profileNew.OnTapped = func() {
 		dialog.ShowEntryDialog("New Profile", "Name", func(profileName string) {
-			config.AddOrUpdateProfile(profileName, int(brightnessSlider.Value), int(tempSlider.Value))
+			_, _, currentPower := config.ReadCurrentState()
+			config.AddOrUpdateProfile(profileName, int(brightnessSlider.Value), int(tempSlider.Value), currentPower)
 			profileSelector.SetOptions(config.GetProfileNames())
 			profileSelector.SetSelected(profileName)
 		}, mainWindow)
@@ -118,22 +119,37 @@ func main() {
 
 	// Callbacks
 	brightnessSlider.OnChanged = func(brightness float64) {
-		lib.LightBrightness(int(brightness))
 		brightnessLabel.SetText(fmt.Sprintf("Brightness %d%%", int(brightness)))
-		config.AddOrUpdateProfile(profileSelector.Selected, int(brightness), -1)
 	}
 	tempSlider.OnChanged = func(temp float64) {
+		tempLabel.SetText(fmt.Sprintf("Temperature %dk", uint16(temp)))
+	}
+
+	brightnessSlider.OnChangeEnded = func(brightness float64) {
+		lib.LightBrightness(int(brightness))
+		brightnessLabel.SetText(fmt.Sprintf("Brightness %d%%", int(brightness)))
+		_, _, currentPower := config.ReadCurrentState()
+		config.AddOrUpdateProfile(profileSelector.Selected, int(brightness), -1, currentPower)
+	}
+
+	tempSlider.OnChangeEnded = func(temp float64) {
 		lib.LightTemperature(uint16(temp))
 		tempLabel.SetText(fmt.Sprintf("Temperature %dk", uint16(temp)))
-		config.AddOrUpdateProfile(profileSelector.Selected, -1, int(temp))
+		_, _, currentPower := config.ReadCurrentState()
+		config.AddOrUpdateProfile(profileSelector.Selected, -1, int(temp), currentPower)
 	}
 
 	// Set Current Values
-	currentBright, currentTemp := config.ReadCurrentState()
+	currentBright, currentTemp, currentPower := config.ReadCurrentState()
 	brightnessSlider.SetValue(float64(currentBright))
 	tempSlider.SetValue(float64(currentTemp))
 	brightnessLabel.SetText(fmt.Sprintf("Brightness %d%%", int(currentBright)))
 	tempLabel.SetText(fmt.Sprintf("Temperature %dk", uint16(currentTemp)))
+	if currentPower == 1 {
+		powerRadio.SetSelected("On")
+	} else {
+		powerRadio.SetSelected("Off")
+	}
 
 	// Add all widgets to the container
 	mainGroup := container.New(layout.NewVBoxLayout(), powerGroup, profileGroup, brightnessGroup, tempGroup, exitButton)

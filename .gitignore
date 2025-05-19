@@ -3,3 +3,9 @@ lcli
 cli
 lcui
 ui
+!lcli/
+!cli/
+!lcui/
+build/*.zip
+build/*.xz
+bin

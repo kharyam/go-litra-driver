@@ -21,7 +21,9 @@ THE SOFTWARE.
 */
 package main
 
-import "github.com/kharyam/go-litra-driver/lcli/cmd"
+import (
+	"github.com/kharyam/go-litra-driver/lcli/cmd"
+)
 
 func main() {
 	cmd.Execute()

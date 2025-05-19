@@ -92,13 +92,13 @@ jobs:
         run: |
           cd lcli
           fyne package -os darwin -icon ../lcui/Icon.png --name lcli-darwin
-          create-dmg --dmg-title "lcli-darwin" ../dist/lcli-darwin.dmg lcli-darwin.app
+          create-dmg ../dist/lcli-darwin.dmg lcli-darwin.app
           cd ..
       - name: Build lcui
         run: |
           cd lcui
           fyne package -os darwin -icon Icon.png --name lcui-darwin
-          create-dmg --dmg-title "lcui-darwin" ../dist/lcui-darwin.dmg lcli-darwin.app
+          create-dmg ../dist/lcui-darwin.dmg lcli-darwin.app
           cd ..
       - name: List binaries
         run: ls dist

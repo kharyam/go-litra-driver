@@ -25,16 +25,47 @@ jobs:
         run: docker build -t fyne-custom:latest build/linux
 
       - name: Build linux amd64 cli
-        run: cd lcli ; fyne-cross linux --image=fyne-custom:latest --arch=amd64 --app-id=net.kharyam.lcli --name lcli-amd64 ; cd ..
+        run: |
+          cd lcli
+          fyne-cross linux --image=fyne-custom:latest --arch=amd64 --app-id=net.kharyam.lcli --name lcli-amd64
+          cd ..
 
       - name: Build linux amd64 lcui
-        run: cd lcui ; fyne-cross linux --image=fyne-custom:latest --arch=amd64 --app-id=net.kharyam.lcli --name lcui-amd64 ; cd ..
+        run: |
+          cd lcui
+          fyne-cross linux --image=fyne-custom:latest --arch=amd64 --app-id=net.kharyam.lcli --name lcui-amd64
+          cd ..
 
       - name: Build linux arm64 cli
-        run: cd lcli ; fyne-cross linux --image=fyne-custom:latest --arch=arm64 --app-id=net.kharyam.lcli --name lcli-arm64 ; cd ..
+        run: |
+          cd lcli
+          fyne-cross linux --image=fyne-custom:latest --arch=arm64 --app-id=net.kharyam.lcli --name lcli-arm64
+          cd ..
 
       - name: Build linux amd64 lcui
-        run: cd lcui ; fyne-cross linux --image=fyne-custom:latest --arch=arm64 --app-id=net.kharyam.lcli --name lcui-arm64 ; cd ..
+        run: |
+          cd lcui
+          fyne-cross linux --image=fyne-custom:latest --arch=arm64 --app-id=net.kharyam.lcli --name lcui-arm64
+          cd ..
+
+      - name: Build windows cli
+        run: |
+          cd lcli
+          fyne-cross windows --arch=amd64 --app-id=net.kharyam.lcli
+          cd ..
+
+      - name: Build windows lcui
+        run: |
+          cd lcui
+          fyne-cross windows --arch=amd64 --app-id=net.kharyam.lcui
+          cd ..
+
+      - name: Move files to dist
+        run: |
+          mkdir dist
+          find . -name "*.xz" -exec mv {} dist
+          find . -name "*.zip" -exec mv {} dist
+          echo "binaries:" ; ls dist
 
   build-macos:
     runs-on: macos-latest
@@ -49,12 +80,13 @@ jobs:
         run: |
           brew install go
           go install fyne.io/tools/cmd/fyne@latest
-          cd lcli ; fyne package -os darwin -icon ../lcui/Icon.png ; ls ; cd ..
-          cd lcui ; fyne package -os darwin -icon Icon.png ; ls ; cd ..
-         
+          cd lcli ; fyne package -os darwin -icon ../lcui/Icon.png ; cd ..
+          cd lcui ; fyne package -os darwin -icon Icon.png ; cd ..
+          find . -name "*.app" -exec mv {} dist
+          echo "binaries: " ; ls dist         
 
 #   release:
-#     needs: [build-linux, build-macos]
+#     needs: [build, build-macos]
 #     runs-on: ubuntu-latest
 #     steps:
 #       - uses: actions/checkout@v3

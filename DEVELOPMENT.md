@@ -64,12 +64,16 @@ podman build -t kharyam/fyne-cross-images:linux build/linux
 
 cd lcli
 fyne-cross linux --arch=amd64 --image=kharyam/fyne-cross-images:linux --app-id=net.kharyam.lcli
+fyne-cross linux --arch=arm64 --image=kharyam/fyne-cross-images:linux --app-id=net.kharyam.lcli
 fyne-cross windows --arch=amd64 --app-id=net.kharyam.lcli
+fyne-cross linux --arch=arm64 --image=kharyam/fyne-cross-images:linux --app-id=net.kharyam.lcli
+
 # TODO - Package for OSX
 #fyne-cross darwin --arch=amd64 --app-id=net.kharyam.lcli
 
 cd ../lcui
 fyne-cross linux --arch=amd64 --image=kharyam/fyne-cross-images:linux --app-id=net.kharyam.lcui
+fyne-cross linux --arch=arm64 --image=kharyam/fyne-cross-images:linux --app-id=net.kharyam.lcui
 fyne-cross windows --arch=amd64 --app-id=net.kharyam.lcui
 # TODO - Package for OSX
 #fyne-cross darwin --arch=amd64 --app-id=net.kharyam.lcui

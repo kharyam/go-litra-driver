@@ -33,7 +33,6 @@ jobs:
       - name: Install dependencies for linux/amd64
         if: matrix.goos == 'linux' && matrix.goarch == 'amd64'
         run: |
-          sudo dpkg --add-architecture arm64
           sudo apt-get update
           sudo apt-get install -y libudev-dev udev
 

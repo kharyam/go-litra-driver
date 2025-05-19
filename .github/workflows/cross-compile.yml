@@ -21,11 +21,14 @@ jobs:
       - name: Install fyne-cross
         run: go install github.com/fyne-io/fyne-cross@latest
 
+      - name: Build custom image
+        run: docker build -t fyne-custom:latest build/linux
+
       - name: Build linux amd64 cli
-        run: cd lcli ; fyne-cross linux --arch=amd64 --app-id=net.kharyam.lcli --name lcli-amd64 ; cd ..
+        run: cd lcli ; fyne-cross linux --image=fyne-custom:latest --arch=amd64 --app-id=net.kharyam.lcli --name lcli-amd64 ; cd ..
 
       - name: Build linux amd64 lcui
-        run: cd lcui ; fyne-cross linux --arch=amd64 --app-id=net.kharyam.lcli --name lcui-amd64 ; cd ..
+        run: cd lcui ; fyne-cross linux --image=fyne-custom:latest --arch=amd64 --app-id=net.kharyam.lcli --name lcui-amd64 ; cd ..
 
 
   # build-macos:

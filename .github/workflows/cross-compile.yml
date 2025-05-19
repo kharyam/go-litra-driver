@@ -47,7 +47,7 @@ jobs:
 
       - name: Install Fyne and build
         run: |
-          brew install fyne
+          brew install go
           go install fyne.io/fyne/v2/cmd/fyne@latest
           cd lcli ; fyne package -os darwin ; ls ; cd ..
           cd lcui ; fyne package -os darwin -icon Icon.png ; ls ; cd ..

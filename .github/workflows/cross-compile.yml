@@ -76,12 +76,18 @@ jobs:
         with:
           go-version: '1.21'
 
-      - name: Install Fyne and build
+      - name: Install Go and Fyne
         run: |
           brew install go
           go install fyne.io/tools/cmd/fyne@latest
+      - name: Build lcli
+        run: |
           cd lcli ; fyne package -os darwin -icon ../lcui/Icon.png ; cd ..
+      - name: Build lcui
+        run: |
           cd lcui ; fyne package -os darwin -icon Icon.png ; cd ..
+      - name: Move apps to dist
+        run: |
           find . -name "*.app" -exec mv {} dist \;
           echo "binaries: " ; ls dist         
 

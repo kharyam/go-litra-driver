@@ -30,13 +30,13 @@ jobs:
         run: |
           sudo dpkg --add-architecture arm64
           sudo apt-get update
-          sudo apt-get install -y libudev-dev:arm64 udev:arm64
+          sudo apt-get install -y libudev-dev:arm64 udev:arm64 libx11-dev:arm64
 
       - name: Install dependencies for linux/amd64
         if: matrix.goos == 'linux' || matrix.goos == 'windows' && matrix.goarch == 'amd64'
         run: |
           sudo apt-get update
-          sudo apt-get install -y libudev-dev udev
+          sudo apt-get install -y libudev-dev udev libx11-dev
 
 
       - name: Build binary

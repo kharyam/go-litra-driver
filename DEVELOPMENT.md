@@ -29,6 +29,16 @@ go get -u
 cd ..
 
 cd config
+go get -u
+cd ../lib
+go get -u
+cd ../lcli
+go get -u
+cd ../lcui
+go get -u
+cd ..
+
+cd config
 go mod tidy
 cd ../lib
 go mod tidy
@@ -51,6 +61,8 @@ cd lcli
 fyne-cross linux --arch=amd64 --image=kharyam/fyne-cross-images:linux --app-id=net.kharyam.lcli --name lcli-amd64
 fyne-cross linux --arch=arm64 --image=kharyam/fyne-cross-images:linuxcd .. --app-id=net.kharyam.lcli --name lcli-arm64
 fyne-cross windows --arch=amd64 --app-id=net.kharyam.lcli
+fyne-cross linux --arch=arm64 --image=kharyam/fyne-cross-images:linux --app-id=net.kharyam.lcli
+
 # TODO - Package for OSX
 #fyne-cross darwin --arch=amd64 --app-id=net.kharyam.lcli
 

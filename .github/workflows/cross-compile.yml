@@ -82,14 +82,10 @@ jobs:
           go install fyne.io/tools/cmd/fyne@latest
       - name: Build lcli
         run: |
-          cd lcli ; fyne package -os darwin -icon ../lcui/Icon.png ; cd ..
+          cd lcli ; fyne package -os darwin -icon ../lcui/Icon.png --name lcli-darwin ; mv lcli-darwin.app ../dist ; cd ..
       - name: Build lcui
         run: |
-          cd lcui ; fyne package -os darwin -icon Icon.png ; cd ..
-      - name: Move apps to dist
-        run: |
-          find . -name "*.app" -exec mv {} dist \;
-          echo "binaries: " ; ls dist         
+          cd lcui ; fyne package -os darwin -icon Icon.png --name lcui-darwin ; mv lcui-darwin.app ../dist ; cd ..
 
 #   release:
 #     needs: [build, build-macos]

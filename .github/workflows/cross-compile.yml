@@ -28,14 +28,14 @@ jobs:
         run: |
           sudo dpkg --add-architecture arm64
           sudo apt-get update
-          sudo apt-get install -y libudev-dev:arm64 libudev:arm64
+          sudo apt-get install -y libudev-dev:arm64 udev:arm64
 
       - name: Install dependencies for linux/amd64
         if: matrix.goos == 'linux' && matrix.goarch == 'amd64'
         run: |
           sudo dpkg --add-architecture arm64
           sudo apt-get update
-          sudo apt-get install -y libudev-dev libudev
+          sudo apt-get install -y libudev-dev udev
 
 
       - name: Build binary
@@ -44,8 +44,8 @@ jobs:
           GOARCH: ${{ matrix.goarch }}
         run: |
           mkdir -p dist
-          cd config ; go build ; cd ..
-          cd lib ; go build ; cd ..
+          go build -v ./config
+          go build -v ./lib
           cd lcli
           go build -o ../dist/lcli-${GOOS}-${GOARCH}${{ matrix.goos == 'windows' && '.exe' || '' }}
           cd ../lcui

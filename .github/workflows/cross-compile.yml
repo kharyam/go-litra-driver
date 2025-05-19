@@ -30,22 +30,28 @@ jobs:
       - name: Build linux amd64 lcui
         run: cd lcui ; fyne-cross linux --image=fyne-custom:latest --arch=amd64 --app-id=net.kharyam.lcli --name lcui-amd64 ; cd ..
 
+      - name: Build linux arm64 cli
+        run: cd lcli ; fyne-cross linux --image=fyne-custom:latest --arch=arm64 --app-id=net.kharyam.lcli --name lcli-arm64 ; cd ..
 
-  # build-macos:
-  #   runs-on: macos-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
+      - name: Build linux amd64 lcui
+        run: cd lcui ; fyne-cross linux --image=fyne-custom:latest --arch=arm64 --app-id=net.kharyam.lcli --name lcui-arm64 ; cd ..
 
-  #     - uses: actions/setup-go@v5
-  #       with:
-  #         go-version: '1.21'
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
 
-  #     - name: Install Fyne and build
-  #       run: |
-  #         brew install fyne
-  #         go install fyne.io/fyne/v2/cmd/fyne@latest
-  #         fyne package -os darwin -icon Icon.png
-  #         mv myapp.app dist/myapp-darwin.app
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+
+      - name: Install Fyne and build
+        run: |
+          brew install fyne
+          go install fyne.io/fyne/v2/cmd/fyne@latest
+          cd lcli ; fyne package -os darwin ; ls ; cd ..
+          cd lcui ; fyne package -os darwin -icon Icon.png ; ls ; cd ..
+         
 
 #   release:
 #     needs: [build-linux, build-macos]

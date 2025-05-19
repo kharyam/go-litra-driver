@@ -6,8 +6,8 @@ toolchain go1.24.3
 
 require (
 	fyne.io/fyne/v2 v2.6.1
-	github.com/kharyam/go-litra-driver/config v0.0.0-20250519010556-a36f115722a2
-	github.com/kharyam/go-litra-driver/lib v0.0.0-20250519010556-a36f115722a2
+	github.com/kharyam/go-litra-driver/config v0.0.0-20250519013908-35bbf97174d9
+	github.com/kharyam/go-litra-driver/lib v0.0.0-20250519013908-35bbf97174d9
 )
 
 require (

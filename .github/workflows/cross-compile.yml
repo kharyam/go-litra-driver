@@ -89,10 +89,10 @@ jobs:
           mkdir dist
       - name: Build lcli
         run: |
-          cd lcli ; fyne package -os darwin -icon ../lcui/Icon.png --name lcli-darwin --release ; mv lcli-darwin.dmg ../dist ; cd ..
+          cd lcli ; fyne package -os darwin -icon ../lcui/Icon.png --name lcli-darwin --release ; ls ; mv lcli-darwin.dmg ../dist ; cd ..
       - name: Build lcui
         run: |
-          cd lcui ; fyne package -os darwin -icon Icon.png --name lcui-darwin --release ; mv lcui-darwin.dmg ../dist ; cd ..
+          cd lcui ; fyne package -os darwin -icon Icon.png --name lcui-darwin --release ; ls ; mv lcui-darwin.dmg ../dist ; cd ..
       - name: List binaries
         run: ls dist
       - name: Upload artifacts

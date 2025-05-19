@@ -67,6 +67,12 @@ jobs:
           find . -name "*.zip" -exec mv {} dist \;
           echo "binaries:" ; ls dist
 
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: linux-windows
+          path: dist
+
   build-macos:
     runs-on: macos-latest
     steps:
@@ -80,6 +86,7 @@ jobs:
         run: |
           brew install go
           go install fyne.io/tools/cmd/fyne@latest
+          mkdir dist
       - name: Build lcli
         run: |
           cd lcli ; fyne package -os darwin -icon ../lcui/Icon.png --name lcli-darwin --release ; mv lcli-darwin.dmg ../dist ; cd ..
@@ -88,21 +95,26 @@ jobs:
           cd lcui ; fyne package -os darwin -icon Icon.png --name lcui-darwin --release ; mv lcui-darwin.dmg ../dist ; cd ..
       - name: List binaries
         run: ls dist
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: macos
+          path: dist
 
-#   release:
-#     needs: [build-linux-windows, build-macos]
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v3
+  # release:
+  #   needs: [build-linux-windows, build-macos]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-#       - name: Download all artifacts
-#         uses: actions/download-artifact@v3
-#         with:
-#           path: dist
+  #     - name: Download all artifacts
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         path: dist
 
-#       - name: Upload release binaries
-#         uses: softprops/action-gh-release@v2
-#         with:
-#           files: dist/**
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #     - name: Upload release binaries
+  #       uses: softprops/action-gh-release@v2
+  #       with:
+  #         files: dist/**
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

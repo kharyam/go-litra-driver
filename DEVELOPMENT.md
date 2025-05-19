@@ -54,6 +54,9 @@ GOPROXY=proxy.golang.org go list -m github.com/kharyam/go-litra-driver@${VERSION
 ```
 
 ## Packaging
+
+This is for reference - there is a [GitHub Action](.github/workflows/cross-compile.yml) to build all supported versions.
+
 ```bash
 podman build -t kharyam/fyne-cross-images:linux build/linux
 

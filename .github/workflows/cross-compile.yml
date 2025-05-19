@@ -28,7 +28,15 @@ jobs:
         run: |
           sudo dpkg --add-architecture arm64
           sudo apt-get update
-          sudo apt-get install -y libudev-dev:arm64 libudev-dev libudev libudev:arm64
+          sudo apt-get install -y libudev-dev:arm64 libudev:arm64
+
+      - name: Install dependencies for linux/amd64
+        if: matrix.goos == 'linux' && matrix.goarch == 'amd64'
+        run: |
+          sudo dpkg --add-architecture arm64
+          sudo apt-get update
+          sudo apt-get install -y libudev-dev libudev
+
 
       - name: Build binary
         env:
@@ -42,21 +50,21 @@ jobs:
           go build -o ../dist/lcli-${GOOS}-${GOARCH}${{ matrix.goos == 'windows' && '.exe' || '' }}
           cd ../lcui
           go build -o ../dist/lcli-${GOOS}-${GOARCH}${{ matrix.goos == 'windows' && '.exe' || '' }}
-  build-macos:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v3
+  # build-macos:
+  #   runs-on: macos-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      - uses: actions/setup-go@v5
-        with:
-          go-version: '1.21'
+  #     - uses: actions/setup-go@v5
+  #       with:
+  #         go-version: '1.21'
 
-      - name: Install Fyne and build
-        run: |
-          brew install fyne
-          go install fyne.io/fyne/v2/cmd/fyne@latest
-          fyne package -os darwin -icon Icon.png
-          mv myapp.app dist/myapp-darwin.app
+  #     - name: Install Fyne and build
+  #       run: |
+  #         brew install fyne
+  #         go install fyne.io/fyne/v2/cmd/fyne@latest
+  #         fyne package -os darwin -icon Icon.png
+  #         mv myapp.app dist/myapp-darwin.app
 
 #   release:
 #     needs: [build-linux, build-macos]

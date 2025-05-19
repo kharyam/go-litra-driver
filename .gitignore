@@ -3,3 +3,6 @@ lcli
 cli
 lcui
 ui
+!lcli/
+!cli/
+!lcui/

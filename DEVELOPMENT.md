@@ -31,7 +31,7 @@ cobra-cli add temp
 ## Publishing
 
 ```bash
-export VERSION=v0.0.2
+export VERSION=v0.1.2
 
 cd config
 go mod tidy
@@ -41,6 +41,8 @@ cd ../lcli
 go mod tidy
 cd ../lcui
 go mod tidy
+
+# Push to main branch, then tag as the version defined above
 
 GOPROXY=proxy.golang.org go list -m github.com/kharyam/go-litra-driver@${VERSION}
 ```

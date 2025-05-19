@@ -16,7 +16,7 @@ go build -o lcui -v ./lcui
 ## Publishing
 
 ```bash
-export VERSION=v0.1.3
+export VERSION=v0.1.4
 
 cd config
 go get -u

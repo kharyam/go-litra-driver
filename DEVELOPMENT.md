@@ -34,6 +34,16 @@ cobra-cli add temp
 export VERSION=v0.1.2
 
 cd config
+go get -u
+cd ../lib
+go get -u
+cd ../lcli
+go get -u
+cd ../lcui
+go get -u
+cd ..
+
+cd config
 go mod tidy
 cd ../lib
 go mod tidy
@@ -41,6 +51,7 @@ cd ../lcli
 go mod tidy
 cd ../lcui
 go mod tidy
+cd ..
 
 # Push to main branch, then tag as the version defined above
 

@@ -63,8 +63,8 @@ jobs:
       - name: Move files to dist
         run: |
           mkdir dist
-          find . -name "*.xz" -exec mv {} dist
-          find . -name "*.zip" -exec mv {} dist
+          find . -name "*.xz" -exec mv {} dist \;
+          find . -name "*.zip" -exec mv {} dist \;
           echo "binaries:" ; ls dist
 
   build-macos:
@@ -82,7 +82,7 @@ jobs:
           go install fyne.io/tools/cmd/fyne@latest
           cd lcli ; fyne package -os darwin -icon ../lcui/Icon.png ; cd ..
           cd lcui ; fyne package -os darwin -icon Icon.png ; cd ..
-          find . -name "*.app" -exec mv {} dist
+          find . -name "*.app" -exec mv {} dist \;
           echo "binaries: " ; ls dist         
 
 #   release:

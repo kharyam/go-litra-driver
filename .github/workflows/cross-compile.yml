@@ -7,50 +7,27 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-linux:
+  build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        #goos: [linux, windows]
-        goos: [linux]
-        goarch: [amd64]
-        #goarch: [amd64, arm64]
-        exclude:
-          - goos: windows
-            goarch: arm64  # Go doesn't support windows/arm64 well
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - uses: actions/setup-go@v5
+      - name: Install Go
+        uses: actions/setup-go@v5
         with:
-          go-version: '1.21'
+          go-version: go.mod
 
-      - name: Install dependencies for linux/arm64
-        if: matrix.goos == 'linux' && matrix.goarch == 'arm64'
-        run: |
-          sudo dpkg --add-architecture arm64
-          sudo apt-get update
-          sudo apt-get install -y libudev-dev:arm64 udev:arm64 libx11-dev:arm64
+      - name: Install fyne-cross
+        run: go install github.com/fyne-io/fyne-cross@latest
 
-      - name: Install dependencies for linux/amd64
-        if: matrix.goos == 'linux' || matrix.goos == 'windows' && matrix.goarch == 'amd64'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libudev-dev udev libx11-dev
+      - name: Build linux amd64 cli
+        run: fyne-cross linux --arch=amd64 --app-id=net.kharyam.lcli --name lcli-amd64
+
+      - name: Build linux amd64 lcui
+        run: fyne-cross linux --arch=amd64 --app-id=net.kharyam.lcli --name lcui-amd64
 
 
-      - name: Build binary
-        env:
-          GOOS: ${{ matrix.goos }}
-          GOARCH: ${{ matrix.goarch }}
-        run: |
-          mkdir -p dist
-          go build -v ./config
-          go build -v ./lib
-          cd lcli
-          go build -o ../dist/lcli-${GOOS}-${GOARCH}${{ matrix.goos == 'windows' && '.exe' || '' }}
-          cd ../lcui
-          go build -o ../dist/lcli-${GOOS}-${GOARCH}${{ matrix.goos == 'windows' && '.exe' || '' }}
   # build-macos:
   #   runs-on: macos-latest
   #   steps:

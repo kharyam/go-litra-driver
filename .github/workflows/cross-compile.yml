@@ -1,40 +1,76 @@
-# This is a basic workflow that is manually triggered
+name: Cross-platform Release
 
-name: Cross Compile (Testing)
-
-# Controls when the action will run. Workflow runs when manually triggered using the UI
-# or API.
 on:
-  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build:
+  build-linux:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        goos: [linux, windows]
+        goarch: [amd64, arm64]
+        exclude:
+          - goos: windows
+            goarch: arm64  # Go doesn't support windows/arm64 well
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: '1.21'
-    - name: Install libudev
-      run: sudo apt-get install -y libudev-dev
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
 
-    - name: Install X dependencies
-      run: sudo apt-get install -y libgl1-mesa-dev xorg-dev
-    - name: Cross Build CLI
-      uses: crazy-max/ghaction-xgo@v3
-      with:
-        working_dir: ./lcli
-        xgo_version: latest
-        go_version: 1.21
-        dest: build
-        prefix: lcli
-        targets: windows/amd64,linux/amd64,linux/arm64,darwin/arm64
-        v: true
-        x: false
-        race: false
-        ldflags: -s -w
-        buildmode: default
-        trimpath: true
+      - name: Install dependencies for linux/arm64
+        if: matrix.goos == 'linux' && matrix.goarch == 'arm64'
+        run: |
+          sudo dpkg --add-architecture arm64
+          sudo apt-get update
+          sudo apt-get install -y libudev-dev:arm64
+
+      - name: Build binary
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+        run: |
+          mkdir -p dist
+          cd config ; go build ; cd ..
+          cd lib ; go build ; cd ..
+          cd lcli
+          go build -o ../dist/lcli-${GOOS}-${GOARCH}${{ matrix.goos == 'windows' && '.exe' || '' }}
+          cd ../lcui
+          go build -o ../dist/lcli-${GOOS}-${GOARCH}${{ matrix.goos == 'windows' && '.exe' || '' }}
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+
+      - name: Install Fyne and build
+        run: |
+          brew install fyne
+          go install fyne.io/fyne/v2/cmd/fyne@latest
+          fyne package -os darwin -icon Icon.png
+          mv myapp.app dist/myapp-darwin.app
+
+#   release:
+#     needs: [build-linux, build-macos]
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v3
+
+#       - name: Download all artifacts
+#         uses: actions/download-artifact@v3
+#         with:
+#           path: dist
+
+#       - name: Upload release binaries
+#         uses: softprops/action-gh-release@v2
+#         with:
+#           files: dist/**
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

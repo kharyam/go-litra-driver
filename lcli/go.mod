@@ -5,8 +5,8 @@ go 1.23.0
 toolchain go1.24.3
 
 require (
-	github.com/kharyam/go-litra-driver/config v0.0.0-20250519013908-35bbf97174d9
-	github.com/kharyam/go-litra-driver/lib v0.0.0-20250519013908-35bbf97174d9
+	github.com/kharyam/go-litra-driver/config v0.0.0-20250519021828-68171012d4dc
+	github.com/kharyam/go-litra-driver/lib v0.0.0-20250519021828-68171012d4dc
 	github.com/spf13/cobra v1.9.1
 )
 

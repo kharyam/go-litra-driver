@@ -118,13 +118,13 @@ func main() {
 	})
 
 	// Callbacks
-	brightnessSlider.OnChanged = func(brightness float64) {
+	brightnessSlider.OnChangeEnded = func(brightness float64) {
 		lib.LightBrightness(int(brightness))
 		brightnessLabel.SetText(fmt.Sprintf("Brightness %d%%", int(brightness)))
 		_, _, currentPower := config.ReadCurrentState()
 		config.AddOrUpdateProfile(profileSelector.Selected, int(brightness), -1, currentPower)
 	}
-	tempSlider.OnChanged = func(temp float64) {
+	tempSlider.OnChangeEnded = func(temp float64) {
 		lib.LightTemperature(uint16(temp))
 		tempLabel.SetText(fmt.Sprintf("Temperature %dk", uint16(temp)))
 		_, _, currentPower := config.ReadCurrentState()

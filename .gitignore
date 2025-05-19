@@ -6,3 +6,6 @@ ui
 !lcli/
 !cli/
 !lcui/
+build/*.zip
+build/*.xz
+bin

@@ -13,7 +13,8 @@ jobs:
       matrix:
         #goos: [linux, windows]
         goos: [linux]
-        goarch: [amd64, arm64]
+        goarch: [amd64]
+        #goarch: [amd64, arm64]
         exclude:
           - goos: windows
             goarch: arm64  # Go doesn't support windows/arm64 well

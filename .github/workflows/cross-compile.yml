@@ -22,10 +22,10 @@ jobs:
         run: go install github.com/fyne-io/fyne-cross@latest
 
       - name: Build linux amd64 cli
-        run: fyne-cross linux --arch=amd64 --app-id=net.kharyam.lcli --name lcli-amd64
+        run: cd lcli ; fyne-cross linux --arch=amd64 --app-id=net.kharyam.lcli --name lcli-amd64 ; cd ..
 
       - name: Build linux amd64 lcui
-        run: fyne-cross linux --arch=amd64 --app-id=net.kharyam.lcli --name lcui-amd64
+        run: cd lcui ; fyne-cross linux --arch=amd64 --app-id=net.kharyam.lcli --name lcui-amd64 ; cd ..
 
 
   # build-macos:

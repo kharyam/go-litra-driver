@@ -161,8 +161,8 @@ func TestLightOff(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 
 	// Setup expectations
-	mockDevice.On("Write", expectedBytes).Return(len(expectedBytes), nil).Once()
-	mockDevice.On("Close").Return(nil).Once()
+	mockDevice.On("Write", expectedBytes).Return(len(expectedBytes), nil).Twice()
+	mockDevice.On("Close").Return(nil).Twice()
 	mockConfigUpdater.On("UpdateCurrentState", -1, -1, 0).Once()
 
 	// Call the function
@@ -187,8 +187,8 @@ func TestLightBrightness(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 
 	// Setup expectations
-	mockDevice.On("Write", expectedBytes).Return(len(expectedBytes), nil).Once()
-	mockDevice.On("Close").Return(nil).Once()
+	mockDevice.On("Write", expectedBytes).Return(len(expectedBytes), nil).Twice()
+	mockDevice.On("Close").Return(nil).Twice()
 	mockConfigUpdater.On("UpdateCurrentState", level, -1, -1).Once()
 
 	// Call the function
@@ -218,8 +218,8 @@ func TestLightBrightDown(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 
 	// Setup expectations
-	mockDevice.On("Write", expectedBytes).Return(len(expectedBytes), nil).Once()
-	mockDevice.On("Close").Return(nil).Once()
+	mockDevice.On("Write", expectedBytes).Return(len(expectedBytes), nil).Twice()
+	mockDevice.On("Close").Return(nil).Twice()
 	mockConfigUpdater.On("UpdateCurrentState", newBrightness, -1, -1).Once()
 
 	// Call the function
@@ -249,8 +249,8 @@ func TestLightBrightDownMinimum(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 
 	// Setup expectations
-	mockDevice.On("Write", expectedBytes).Return(len(expectedBytes), nil).Once()
-	mockDevice.On("Close").Return(nil).Once()
+	mockDevice.On("Write", expectedBytes).Return(len(expectedBytes), nil).Twice()
+	mockDevice.On("Close").Return(nil).Twice()
 	mockConfigUpdater.On("UpdateCurrentState", newBrightness, -1, -1).Once()
 
 	// Call the function
@@ -280,8 +280,8 @@ func TestLightBrightUp(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 
 	// Setup expectations
-	mockDevice.On("Write", expectedBytes).Return(len(expectedBytes), nil).Once()
-	mockDevice.On("Close").Return(nil).Once()
+	mockDevice.On("Write", expectedBytes).Return(len(expectedBytes), nil).Twice()
+	mockDevice.On("Close").Return(nil).Twice()
 	mockConfigUpdater.On("UpdateCurrentState", newBrightness, -1, -1).Once()
 
 	// Call the function

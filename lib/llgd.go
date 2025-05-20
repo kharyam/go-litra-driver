@@ -7,7 +7,6 @@ import (
 	"math"
 	"os"
 
-	"github.com/kharyam/go-litra-driver/config"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/sstallion/go-hid"
@@ -33,20 +32,20 @@ var litraProducts = [2]litraDevice{
 		0xc901},
 }
 
-func findDevices() []*hid.Device {
-
-	var devices []*hid.Device
+// findDevicesWithDefaults finds all connected Litra devices using default implementations
+func findDevicesWithDefaults() []HIDDevice {
+	var devices []HIDDevice
 	var deviceInfos = make(map[string]*hid.DeviceInfo)
 
 	for i := 0; i < len(litraProducts); i++ {
-		hid.Enumerate(VendorId, uint16(litraProducts[i].productId), func(info *hid.DeviceInfo) error {
+		defaultHIDEnumerator.Enumerate(VendorId, uint16(litraProducts[i].productId), func(info *hid.DeviceInfo) error {
 			deviceInfos[info.SerialNbr] = info
 			return nil
 		})
 	}
 
 	for _, value := range deviceInfos {
-		device, err := hid.Open(value.VendorID, value.ProductID, value.SerialNbr)
+		device, err := defaultHIDOpener.Open(value.VendorID, value.ProductID, value.SerialNbr)
 		if firstRun {
 			log.Debug().Msgf("Found device %s", value.ProductStr)
 		}
@@ -61,16 +60,16 @@ func findDevices() []*hid.Device {
 	return devices
 }
 
+// commandDevices sends a command to all connected devices
 func commandDevices(bytes []byte) {
 	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
-	var devices = findDevices()
+	var devices = findDevicesWithDefaults()
 
 	for i := 0; i < len(devices); i++ {
 		var device = devices[i]
 		defer device.Close()
 		device.Write(bytes)
 	}
-
 }
 
 // LightOn turns on all detected lights
@@ -79,7 +78,7 @@ func LightOn() {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 
 	commandDevices(bytes)
-	config.UpdateCurrentState(-1, -1, 1)
+	defaultConfigUpdater.UpdateCurrentState(-1, -1, 1)
 }
 
 // LightOff turns off all detected lights
@@ -88,7 +87,7 @@ func LightOff() {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 
 	commandDevices(bytes)
-	config.UpdateCurrentState(-1, -1, 0)
+	defaultConfigUpdater.UpdateCurrentState(-1, -1, 0)
 }
 
 // LightBrightness sets the brightness of all connected lights. Specify a brightness between 0 and 100
@@ -98,38 +97,39 @@ func LightBrightness(level int) {
 	var bytes = []byte{0x11, 0xff, 0x04, 0x4c, 0x00, byte(adjustedLevel), 0x00, 0x00, 0x00, 0x00,
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 	commandDevices(bytes)
-	config.UpdateCurrentState(level, -1, -1)
+	defaultConfigUpdater.UpdateCurrentState(level, -1, -1)
 }
+
+// Function variables for testing
+var lightBrightnessFunc = LightBrightness
+var lightTemperatureFunc = LightTemperature
 
 // LightBrightDown decreases the brightness by the amount specified
 func LightBrightDown(inc int) {
-
-	brightness, _, _ := config.ReadCurrentState()
+	brightness, _, _ := defaultConfigUpdater.ReadCurrentState()
 	brightness -= inc
 
 	if brightness < 1 {
 		brightness = 0
 	}
 
-	LightBrightness(brightness)
+	lightBrightnessFunc(brightness)
 }
 
 // LightBrightUp increases the brightness by the amount specified
 func LightBrightUp(inc int) {
-
-	brightness, _, _ := config.ReadCurrentState()
+	brightness, _, _ := defaultConfigUpdater.ReadCurrentState()
 	brightness += inc
 
 	if brightness > 100 {
 		brightness = 100
 	}
 
-	LightBrightness(brightness)
+	lightBrightnessFunc(brightness)
 }
 
 // LightTemperature sets a light temperature between 2700 and 6500
 func LightTemperature(temp uint16) {
-
 	tempBytes := make([]byte, 2)
 
 	binary.BigEndian.PutUint16(tempBytes, temp)
@@ -138,31 +138,29 @@ func LightTemperature(temp uint16) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 
 	commandDevices(bytes)
-	config.UpdateCurrentState(-1, int(temp), -1)
+	defaultConfigUpdater.UpdateCurrentState(-1, int(temp), -1)
 }
 
 // LightTempDown decreases the temperature by the amount specified
 func LightTempDown(inc int) {
-
-	_, temp, _ := config.ReadCurrentState()
+	_, temp, _ := defaultConfigUpdater.ReadCurrentState()
 	temp -= inc
 
 	if temp < 2700 {
 		temp = 2700
 	}
 
-	LightTemperature(uint16(temp))
+	lightTemperatureFunc(uint16(temp))
 }
 
 // LightTempUp increases the temperature by the amount specified
 func LightTempUp(inc int) {
-
-	_, temp, _ := config.ReadCurrentState()
+	_, temp, _ := defaultConfigUpdater.ReadCurrentState()
 	temp += inc
 
 	if temp > 6500 {
 		temp = 6500
 	}
 
-	LightTemperature(uint16(temp))
+	lightTemperatureFunc(uint16(temp))
 }

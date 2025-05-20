@@ -7,10 +7,6 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
-// Function types for testing
-type lightBrightnessFuncType func(level int)
-type lightTemperatureFuncType func(temp uint16)
-
 // Mock HID device
 type MockHIDDevice struct {
 	mock.Mock
@@ -32,8 +28,10 @@ type MockHIDEnumerator struct {
 }
 
 func (m *MockHIDEnumerator) Enumerate(vendorID uint16, productID uint16, enumerationCallback func(*hid.DeviceInfo) error) error {
-	// Just call the mock with the arguments
-	args := m.Called(vendorID, productID, enumerationCallback)
+	args := m.Called(vendorID, productID, func(info *hid.DeviceInfo) error {
+		// You can put stub behavior here, or leave it empty
+		return nil
+	})
 	return args.Error(0)
 }
 
@@ -96,9 +94,21 @@ func setupTest() (*MockHIDDevice, *MockHIDEnumerator, *MockHIDOpener, *MockConfi
 		mockEnumerator.On("Enumerate",
 			uint16(VendorId),
 			uint16(product.productId),
-			mock.AnythingOfType("func(*hid.DeviceInfo) error")).
+			// mock.AnythingOfType("func(*hid.DeviceInfo) error")).
+			mock.MatchedBy(func(fn interface{}) bool {
+				_, ok := fn.(func(*hid.DeviceInfo) error)
+				return ok
+			})).Return(nil).
 			Run(func(args mock.Arguments) {
+				// Get the actual enumeration callback from the arguments
 				callback := args.Get(2).(func(*hid.DeviceInfo) error)
+				// Create a mock device info and call the callback with it
+				deviceInfo := &hid.DeviceInfo{
+					VendorID:   uint16(VendorId),
+					ProductID:  uint16(product.productId),
+					SerialNbr:  "test-serial-" + product.name,
+					ProductStr: product.name,
+				}
 				callback(deviceInfo)
 			}).
 			Return(nil).Once()
@@ -293,7 +303,7 @@ func TestLightBrightUpMaximum(t *testing.T) {
 
 	// Current brightness is 95%
 	currentBrightness := 95
-	mockConfigUpdater.On("ReadCurrentState").Return(currentBrightness, 4000, 1).Once()
+	mockConfigUpdater.On("ReadCurrentState").Return(50, currentBrightness, 1).Once()
 
 	// Increase by 10% (should clamp to 100%)
 	increaseAmount := 10

@@ -28,10 +28,7 @@ type MockHIDEnumerator struct {
 }
 
 func (m *MockHIDEnumerator) Enumerate(vendorID uint16, productID uint16, enumerationCallback func(*hid.DeviceInfo) error) error {
-	args := m.Called(vendorID, productID, func(info *hid.DeviceInfo) error {
-		// You can put stub behavior here, or leave it empty
-		return nil
-	})
+	args := m.Called(vendorID, productID, enumerationCallback)
 	return args.Error(0)
 }
 
@@ -94,7 +91,6 @@ func setupTest() (*MockHIDDevice, *MockHIDEnumerator, *MockHIDOpener, *MockConfi
 		mockEnumerator.On("Enumerate",
 			uint16(VendorId),
 			uint16(product.productId),
-			// mock.AnythingOfType("func(*hid.DeviceInfo) error")).
 			mock.MatchedBy(func(fn interface{}) bool {
 				_, ok := fn.(func(*hid.DeviceInfo) error)
 				return ok
@@ -143,8 +139,8 @@ func TestLightOn(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 
 	// Setup expectations
-	mockDevice.On("Write", expectedBytes).Return(len(expectedBytes), nil).Once()
-	mockDevice.On("Close").Return(nil).Once()
+	mockDevice.On("Write", expectedBytes).Return(len(expectedBytes), nil).Twice()
+	mockDevice.On("Close").Return(nil).Twice()
 	mockConfigUpdater.On("UpdateCurrentState", -1, -1, 1).Once()
 
 	// Call the function

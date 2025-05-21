@@ -25,7 +25,6 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/kharyam/go-litra-driver/lib"
 	"github.com/spf13/cobra"
 )
 
@@ -38,14 +37,20 @@ var brightupCmd = &cobra.Command{
 # Increment brightness by 5%
 lcli brightup 5`,
 	Run: func(cmd *cobra.Command, args []string) {
-		bright, err := strconv.Atoi(args[0])
-		if err != nil {
-			bright = -1
-		}
-		if bright < 0 || bright > 100 {
-			fmt.Printf("Brightness must be a value between 0 and 100, not %s", args[0])
+
+		if len(args) == 0 {
+			fmt.Printf("Brightness must be specified, and a value between 0 and 100)")
 		} else {
-			lib.LightBrightUp(bright)
+
+			bright, err := strconv.Atoi(args[0])
+			if err != nil {
+				bright = -1
+			}
+			if bright < 0 || bright > 100 {
+				fmt.Printf("Brightness must be a value between 0 and 100, not %s", args[0])
+			} else {
+				libImpl.LightBrightUp(bright)
+			}
 		}
 	},
 	Args: cobra.ExactArgs(1),

@@ -25,7 +25,6 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/kharyam/go-litra-driver/lib"
 	"github.com/spf13/cobra"
 )
 
@@ -42,10 +41,10 @@ lcli tempdown 100`,
 		if err != nil {
 			temp = -1
 		}
-		if temp < 0 {
+		if temp < 1 {
 			fmt.Printf("Temperature decrement must be a value greater than 0, not %s", args[0])
 		} else {
-			lib.LightTempDown(temp)
+			libImpl.LightTempDown(temp)
 		}
 	},
 	Args: cobra.ExactArgs(1),

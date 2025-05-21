@@ -299,20 +299,20 @@ func TestLightBrightUpMaximum(t *testing.T) {
 
 	// Current brightness is 95%
 	currentBrightness := 95
-	mockConfigUpdater.On("ReadCurrentState").Return(50, currentBrightness, 1).Once()
+	mockConfigUpdater.On("ReadCurrentState").Return(currentBrightness, 2900, 1).Once()
 
 	// Increase by 10% (should clamp to 100%)
 	increaseAmount := 10
 	newBrightness := 100
-	adjustedLevel := MinBrightness + ((MaxBrightness - MinBrightness) * newBrightness / 100)
+	// adjustedLevel := MinBrightness + ((MaxBrightness - MinBrightness) * newBrightness / 100)
 
 	// Expected command bytes for setting brightness
-	expectedBytes := []byte{0x11, 0xff, 0x04, 0x4c, 0x00, byte(adjustedLevel), 0x00, 0x00, 0x00, 0x00,
+	expectedBytes := []byte{0x11, 0xff, 0x04, 0x4c, 0x00, byte(MaxBrightness), 0x00, 0x00, 0x00, 0x00,
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 
 	// Setup expectations
-	mockDevice.On("Write", expectedBytes).Return(len(expectedBytes), nil).Once()
-	mockDevice.On("Close").Return(nil).Once()
+	mockDevice.On("Write", expectedBytes).Return(len(expectedBytes), nil).Twice()
+	mockDevice.On("Close").Return(nil).Twice()
 	mockConfigUpdater.On("UpdateCurrentState", newBrightness, -1, -1).Once()
 
 	// Call the function
@@ -337,8 +337,8 @@ func TestLightTemperature(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 
 	// Setup expectations
-	mockDevice.On("Write", expectedBytes).Return(len(expectedBytes), nil).Once()
-	mockDevice.On("Close").Return(nil).Once()
+	mockDevice.On("Write", expectedBytes).Return(len(expectedBytes), nil).Twice()
+	mockDevice.On("Close").Return(nil).Twice()
 	mockConfigUpdater.On("UpdateCurrentState", -1, int(temp), -1).Once()
 
 	// Call the function
@@ -361,15 +361,15 @@ func TestLightTempDown(t *testing.T) {
 	// Decrease by 200K
 	decreaseAmount := 200
 	newTemp := currentTemp - decreaseAmount
-	tempBytes := []byte{0x0e, 0xe8} // 3800 in big-endian bytes
+	tempBytes := []byte{0x0e, 0xd8} // 3800 in big-endian bytes
 
 	// Expected command bytes for setting temperature
 	expectedBytes := []byte{0x11, 0xff, 0x04, 0x9c, tempBytes[0], tempBytes[1], 0x00, 0x00,
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 
 	// Setup expectations
-	mockDevice.On("Write", expectedBytes).Return(len(expectedBytes), nil).Once()
-	mockDevice.On("Close").Return(nil).Once()
+	mockDevice.On("Write", expectedBytes).Return(len(expectedBytes), nil).Twice()
+	mockDevice.On("Close").Return(nil).Twice()
 	mockConfigUpdater.On("UpdateCurrentState", -1, newTemp, -1).Once()
 
 	// Call the function
@@ -399,8 +399,8 @@ func TestLightTempDownMinimum(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 
 	// Setup expectations
-	mockDevice.On("Write", expectedBytes).Return(len(expectedBytes), nil).Once()
-	mockDevice.On("Close").Return(nil).Once()
+	mockDevice.On("Write", expectedBytes).Return(len(expectedBytes), nil).Twice()
+	mockDevice.On("Close").Return(nil).Twice()
 	mockConfigUpdater.On("UpdateCurrentState", -1, newTemp, -1).Once()
 
 	// Call the function
@@ -423,15 +423,15 @@ func TestLightTempUp(t *testing.T) {
 	// Increase by 200K
 	increaseAmount := 200
 	newTemp := currentTemp + increaseAmount
-	tempBytes := []byte{0x10, 0x58} // 4200 in big-endian bytes
+	tempBytes := []byte{0x10, 0x68} // 4200 in big-endian bytes
 
 	// Expected command bytes for setting temperature
 	expectedBytes := []byte{0x11, 0xff, 0x04, 0x9c, tempBytes[0], tempBytes[1], 0x00, 0x00,
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 
 	// Setup expectations
-	mockDevice.On("Write", expectedBytes).Return(len(expectedBytes), nil).Once()
-	mockDevice.On("Close").Return(nil).Once()
+	mockDevice.On("Write", expectedBytes).Return(len(expectedBytes), nil).Twice()
+	mockDevice.On("Close").Return(nil).Twice()
 	mockConfigUpdater.On("UpdateCurrentState", -1, newTemp, -1).Once()
 
 	// Call the function
@@ -461,8 +461,8 @@ func TestLightTempUpMaximum(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 
 	// Setup expectations
-	mockDevice.On("Write", expectedBytes).Return(len(expectedBytes), nil).Once()
-	mockDevice.On("Close").Return(nil).Once()
+	mockDevice.On("Write", expectedBytes).Return(len(expectedBytes), nil).Twice()
+	mockDevice.On("Close").Return(nil).Twice()
 	mockConfigUpdater.On("UpdateCurrentState", -1, newTemp, -1).Once()
 
 	// Call the function

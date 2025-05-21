@@ -7,6 +7,47 @@ on:
   workflow_dispatch:
 
 jobs:
+  run-unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: '1.23'
+
+    - name: Build config
+      run: go build -v ./config
+
+    - name: Install libudev
+      run: sudo apt-get install -y libudev-dev
+
+    - name: Build lib
+      run: go build -v ./lib
+
+    - name: Build cli
+      run: go build -o lcli -v ./lcli
+
+    - name: Install X dependencies
+      run: sudo apt-get install -y libgl1-mesa-dev xorg-dev
+
+    - name: Build ui
+      run: go build -o lcui -v ./lcui
+
+    - name: Run Unit Tests
+      run: |
+        go test -cover -coverprofile=coverage.out -v ./config ./lib ./lcli/cmd
+        mkdir ../dist
+        go tool cover -html=coverage.out -o ../dist/code-coverage.html
+        mv coverage.out ../dist
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: code-coverage
+        path: dist/
+
   build-linux-windows:
     runs-on: ubuntu-latest
     steps:
@@ -109,7 +150,7 @@ jobs:
           path: dist/
 
   release:
-    needs: [build-linux-windows, build-macos]
+    needs: [build-linux-windows, build-macos, run-unit-tests]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

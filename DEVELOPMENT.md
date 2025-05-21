@@ -25,7 +25,7 @@ go tool cover -html=coverage.out
 ## Publishing
 
 ```bash
-export VERSION=v0.1.5
+export VERSION=v0.1.6
 
 cd config
 go get -u

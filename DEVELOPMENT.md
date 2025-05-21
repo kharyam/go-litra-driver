@@ -13,10 +13,19 @@ go build -o lcli -v ./lcli
 go build -o lcui -v ./lcui
 ```
 
+## Run unit tests
+
+```bash
+go test -cover -coverprofile=coverage.out -v ./config ./lib ./lcli/cmd
+
+# View coverage in browser
+go tool cover -html=coverage.out
+```
+
 ## Publishing
 
 ```bash
-export VERSION=v0.1.5
+export VERSION=v0.1.6
 
 cd config
 go get -u

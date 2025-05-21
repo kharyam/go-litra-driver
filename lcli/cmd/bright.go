@@ -25,7 +25,6 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/kharyam/go-litra-driver/lib"
 	"github.com/spf13/cobra"
 )
 
@@ -42,7 +41,7 @@ var brightCmd = &cobra.Command{
 		if bright < 0 || bright > 100 {
 			fmt.Printf("Brightness must be a value between 0 and 100, not %s", args[0])
 		} else {
-			lib.LightBrightness(bright)
+			libImpl.LightBrightness(bright)
 		}
 	},
 	Args: cobra.ExactArgs(1),

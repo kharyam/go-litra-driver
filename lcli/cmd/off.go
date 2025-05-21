@@ -22,7 +22,6 @@ THE SOFTWARE.
 package cmd
 
 import (
-	"github.com/kharyam/go-litra-driver/lib"
 	"github.com/spf13/cobra"
 )
 
@@ -32,7 +31,7 @@ var offCmd = &cobra.Command{
 	Short: "Turn lights off",
 	Long:  `Turns all connected Litra devices (Glow and Beam) Off`,
 	Run: func(cmd *cobra.Command, args []string) {
-		lib.LightOff()
+		libImpl.LightOff()
 	},
 }
 

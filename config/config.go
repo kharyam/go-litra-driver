@@ -5,12 +5,9 @@ package config
 import (
 	"errors"
 	"os"
-
 	"path/filepath"
-
 	"strconv"
 
-	"github.com/bigkevmcd/go-configparser"
 	"github.com/rs/zerolog/log"
 )
 
@@ -19,34 +16,38 @@ const Bright = "brightness"
 const Temp = "temperature"
 const Power = "power"
 
+// Default implementations
+var defaultFS FileSystem = &DefaultFileSystem{}
+var defaultParserFactory ParserFactory = &DefaultParserFactory{}
+
 // getConfig loads the config file
-func getConfig() (*configparser.ConfigParser, string) {
-	xdgConfig := os.Getenv("XDG_CONFIG_HOME")
+func getConfig(fs FileSystem, factory ParserFactory) (Parser, string) {
+	xdgConfig := fs.GetEnv("XDG_CONFIG_HOME")
 	configFile := ""
 	if xdgConfig != "" {
 		configFile = filepath.Join(xdgConfig, "llgd")
-		pathExists, _ := exists(configFile)
+		pathExists, _ := exists(fs, configFile)
 		if !pathExists {
-			os.MkdirAll(configFile, os.ModeDir)
+			fs.MkdirAll(configFile, os.ModeDir)
 		}
 		configFile = filepath.Join(configFile, "config")
 	} else {
-		homeDir, err := os.UserHomeDir()
+		homeDir, err := fs.UserHomeDir()
 		if err != nil {
 			log.Fatal().Msgf("Failed to find home directory: %v", err)
 		}
 		configFile = filepath.Join(homeDir, ".llgd_config")
 	}
 
-	if _, err := os.Stat(configFile); errors.Is(err, os.ErrNotExist) {
-		cfile, e := os.Create(configFile)
+	if _, err := fs.Stat(configFile); errors.Is(err, os.ErrNotExist) {
+		cfile, e := fs.Create(configFile)
 		if e != nil {
 			log.Fatal().Msgf("Failed to create new config file %s %v", configFile, e)
 		}
 		cfile.Close()
 	}
 
-	configParser, err := configparser.NewConfigParserFromFile(configFile)
+	configParser, err := factory.NewConfigParserFromFile(configFile)
 	if err != nil {
 		log.Fatal().Msgf("Failed to load config file %s : %v", configFile, err)
 	}
@@ -54,13 +55,18 @@ func getConfig() (*configparser.ConfigParser, string) {
 	return configParser, configFile
 }
 
+// getConfigWithDefaults loads the config file using default implementations
+func getConfigWithDefaults() (Parser, string) {
+	return getConfig(defaultFS, defaultParserFactory)
+}
+
 // exists returns whether the given file or directory exists
-func exists(path string) (bool, error) {
-	_, err := os.Stat(path)
+func exists(fs FileSystem, path string) (bool, error) {
+	_, err := fs.Stat(path)
 	if err == nil {
 		return true, nil
 	}
-	if os.IsNotExist(err) {
+	if fs.IsNotExist(err) {
 		return false, nil
 	}
 	return false, err
@@ -68,7 +74,7 @@ func exists(path string) (bool, error) {
 
 // AddOrUpdateProfile will create a new profile or update an existing profile
 func AddOrUpdateProfile(profileName string, brightness int, temp int, power int) {
-	parser, configFile := getConfig()
+	parser, configFile := getConfigWithDefaults()
 	if !parser.HasSection(profileName) {
 		parser.AddSection(profileName)
 	}
@@ -92,7 +98,7 @@ func UpdateCurrentState(brightness int, temperature int, power int) {
 
 // DeleteProfile removes a profile from the configuration file
 func DeleteProfile(profileName string) {
-	parser, configFile := getConfig()
+	parser, configFile := getConfigWithDefaults()
 	if parser.HasSection(profileName) {
 		parser.RemoveSection(profileName)
 		parser.SaveWithDelimiter(configFile, "=")
@@ -101,7 +107,7 @@ func DeleteProfile(profileName string) {
 
 // ReadProfile will read the brightness, temperature, and power settings from a profile
 func ReadProfile(profileName string) (brightness int, temperature int, power int) {
-	parser, _ := getConfig()
+	parser, _ := getConfigWithDefaults()
 
 	brightnessString, err := parser.Get(profileName, Bright)
 	if err != nil {
@@ -135,7 +141,7 @@ func ReadCurrentState() (brightness int, temperature int, power int) {
 
 // Return the list of profile names with "current" being first
 func GetProfileNames() (profiles []string) {
-	parser, _ := getConfig()
+	parser, _ := getConfigWithDefaults()
 	allProfiles := parser.Sections()
 
 	profiles = append(profiles, CurrentProfileName)

@@ -9,3 +9,4 @@ ui
 build/*.zip
 build/*.xz
 bin
+coverage.out

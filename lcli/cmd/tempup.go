@@ -25,7 +25,6 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/kharyam/go-litra-driver/lib"
 	"github.com/spf13/cobra"
 )
 
@@ -35,17 +34,17 @@ var tempupCmd = &cobra.Command{
 	Short: "Increments the temperature by the amount specified",
 	Long: `Increments the light temperature by the amount specified:
 
-# Increment temperature by 100k
+# Increment temperature by 100K
 lcli tempup 100`,
 	Run: func(cmd *cobra.Command, args []string) {
 		temp, err := strconv.Atoi(args[0])
 		if err != nil {
 			temp = -1
 		}
-		if temp < 0 {
+		if temp < 1 {
 			fmt.Printf("Temperature increment must be a value greater than 0, not %s", args[0])
 		} else {
-			lib.LightTempUp(temp)
+			libImpl.LightTempUp(temp)
 		}
 	},
 	Args: cobra.ExactArgs(1),

@@ -25,6 +25,7 @@ go tool cover -html=coverage.out
 ## Publishing
 
 ```bash
+# Update to new version
 export VERSION=v0.1.6
 
 cd config
@@ -57,8 +58,21 @@ cd ../lcui
 go mod tidy
 cd ..
 
-# Push to main branch, then tag as the version defined above
+# Commit and push changes to feature branch
 
+# Push to main branch (e.g., merge pull request for the branch)
+
+# Switch to the main branch
+git checkout main
+git pull origin main
+
+# Tag as the version defined above
+git tag -a ${VERSION} -m "Release version ${VERSION:1}"
+git push origin v0.1.6
+
+# Git hub action will build for all supported platforms, run unit tests, and create the Release
+
+# Go to the release page once the action completes and update the release description (Auto generate)
 GOPROXY=proxy.golang.org go list -m github.com/kharyam/go-litra-driver@${VERSION}
 ```
 

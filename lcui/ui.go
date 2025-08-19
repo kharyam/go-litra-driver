@@ -14,8 +14,11 @@ import (
 	"github.com/kharyam/go-litra-driver/lib"
 )
 
+//go:generate fyne bundle -o icons.go Icon.png
 func main() {
 	application := app.NewWithID("net.khary.lcui")
+	application.SetIcon(resourceIconPng)
+
 	mainWindow := application.NewWindow("Litra Controller")
 
 	if desk, ok := application.(desktop.App); ok {

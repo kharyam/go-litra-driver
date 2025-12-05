@@ -11,6 +11,7 @@ go build -v ./config
 go build -v ./lib
 go build -o lcli -v ./lcli
 go build -o lcui -v ./lcui
+go generate  -v ./lcui  # to update the icon from the PNG file
 ```
 
 ## Run unit tests

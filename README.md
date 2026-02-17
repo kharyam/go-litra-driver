@@ -55,6 +55,7 @@ Available Commands:
   brightdown  Decrements the brightness by the amount specified
   brightup    Increments the brightness by the amount specified
   completion  Generate the autocompletion script for the specified shell
+  devices     List connected Litra devices
   help        Help about any command
   off         Turn lights off
   on          Turn lights on
@@ -64,13 +65,15 @@ Available Commands:
   toggle      Toggles the light on or off
 
 Flags:
-  -h, --help     help for lcli
+  -d, --device int   Device index to control (0=all, 1+=specific device). Use 'devices' command to list.
+  -h, --help         help for lcli
 
 Use "lcli [command] --help" for more information about a command.
 ```
 
 Sample Usage
 ```bash
+# Control all connected devices (default behavior)
 lcli on
 lcli bright 10
 lcli temp 6500
@@ -78,4 +81,16 @@ lcli brightup 30
 lcli tempdown 2000
 lcli off
 lcli toggle
+
+# List connected devices to see their indices
+lcli devices
+#   1: Litra Beam (serial: ABC123)
+#   2: Litra Glow (serial: DEF456)
+
+# Control a specific device by index
+lcli -d 1 on
+lcli -d 1 bright 50
+lcli -d 2 temp 4000
+lcli -d 1 off
+lcli -d 2 toggle
 ```

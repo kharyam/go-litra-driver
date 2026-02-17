@@ -31,7 +31,7 @@ var offCmd = &cobra.Command{
 	Short: "Turn lights off",
 	Long:  `Turns all connected Litra devices (Glow and Beam) Off`,
 	Run: func(cmd *cobra.Command, args []string) {
-		libImpl.LightOff()
+		libImpl.LightOff(deviceIndex)
 	},
 }
 

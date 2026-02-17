@@ -4,9 +4,11 @@ package config
 
 import (
 	"errors"
+	"fmt"
 	"os"
 	"path/filepath"
 	"strconv"
+	"strings"
 
 	"github.com/rs/zerolog/log"
 )
@@ -19,6 +21,25 @@ const Power = "power"
 // Default implementations
 var defaultFS FileSystem = &DefaultFileSystem{}
 var defaultParserFactory ParserFactory = &DefaultParserFactory{}
+
+// deviceSectionName returns the config section name for a given device index.
+// Index 0 means "all devices" and maps to "current". Index N (1+) maps to "current-N".
+func deviceSectionName(deviceIndex int) string {
+	if deviceIndex == 0 {
+		return CurrentProfileName
+	}
+	return fmt.Sprintf("%s-%d", CurrentProfileName, deviceIndex)
+}
+
+// isDeviceSection returns true if the section name is a per-device section (e.g. "current-1", "current-2").
+func isDeviceSection(name string) bool {
+	if !strings.HasPrefix(name, CurrentProfileName+"-") {
+		return false
+	}
+	suffix := strings.TrimPrefix(name, CurrentProfileName+"-")
+	_, err := strconv.Atoi(suffix)
+	return err == nil
+}
 
 // getConfig loads the config file
 func getConfig(fs FileSystem, factory ParserFactory) (Parser, string) {
@@ -91,9 +112,10 @@ func AddOrUpdateProfile(profileName string, brightness int, temp int, power int)
 }
 
 // UpdateCurrentState updates the temperature, brightness, and/or power for current state.
+// deviceIndex 0 means all devices (uses "current" section), 1+ targets a specific device.
 // set any value to -1 to not set it in the section
-func UpdateCurrentState(brightness int, temperature int, power int) {
-	AddOrUpdateProfile(CurrentProfileName, brightness, temperature, power)
+func UpdateCurrentState(deviceIndex int, brightness int, temperature int, power int) {
+	AddOrUpdateProfile(deviceSectionName(deviceIndex), brightness, temperature, power)
 }
 
 // DeleteProfile removes a profile from the configuration file
@@ -134,9 +156,10 @@ func ReadProfile(profileName string) (brightness int, temperature int, power int
 
 }
 
-// Read the current state of the lights from the config file
-func ReadCurrentState() (brightness int, temperature int, power int) {
-	return ReadProfile(CurrentProfileName)
+// Read the current state of the lights from the config file.
+// deviceIndex 0 means all devices (uses "current" section), 1+ targets a specific device.
+func ReadCurrentState(deviceIndex int) (brightness int, temperature int, power int) {
+	return ReadProfile(deviceSectionName(deviceIndex))
 }
 
 // Return the list of profile names with "current" being first
@@ -147,7 +170,7 @@ func GetProfileNames() (profiles []string) {
 	profiles = append(profiles, CurrentProfileName)
 
 	for i := 0; i < len(allProfiles); i++ {
-		if allProfiles[i] != CurrentProfileName {
+		if allProfiles[i] != CurrentProfileName && !isDeviceSection(allProfiles[i]) {
 			profiles = append(profiles, allProfiles[i])
 		}
 	}

@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"strconv"
+	"strings"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -13,6 +15,8 @@ import (
 	"github.com/kharyam/go-litra-driver/config"
 	"github.com/kharyam/go-litra-driver/lib"
 )
+
+var selectedDeviceIndex int = 0
 
 //go:generate fyne bundle -o icons.go Icon.png
 func main() {
@@ -30,10 +34,10 @@ func main() {
 				mainWindow.Hide()
 			}),
 			fyne.NewMenuItem("Off", func() {
-				lib.LightOff()
+				lib.LightOff(0)
 			}),
 			fyne.NewMenuItem("On", func() {
-				lib.LightOn()
+				lib.LightOn(0)
 			}),
 		)
 		desk.SetSystemTrayMenu(systrayMenu)
@@ -46,9 +50,9 @@ func main() {
 	// Power
 	powerRadio := widget.NewRadioGroup([]string{"Off", "On"}, func(power string) {
 		if power == "Off" {
-			lib.LightOff()
+			lib.LightOff(selectedDeviceIndex)
 		} else {
-			lib.LightOn()
+			lib.LightOn(selectedDeviceIndex)
 		}
 	})
 	powerRadio.Horizontal = true
@@ -66,6 +70,41 @@ func main() {
 	tempSlider := widget.NewSlider(2700, 6500)
 	tempSlider.Step = 100
 	tempGroup := container.New(layout.NewVBoxLayout(), tempLabel, tempSlider)
+
+	// Device Selector
+	devices := lib.ListDevices()
+	deviceOptions := []string{"All Devices"}
+	for _, d := range devices {
+		deviceOptions = append(deviceOptions, fmt.Sprintf("Device %d: Litra %s", d.Index, d.Name))
+	}
+	deviceLabel := widget.NewLabel("Device:")
+	deviceSelector := widget.NewSelect(deviceOptions, func(selection string) {
+		if selection == "All Devices" {
+			selectedDeviceIndex = 0
+		} else {
+			// Parse index from "Device N: ..."
+			parts := strings.SplitN(selection, ":", 2)
+			if len(parts) > 0 {
+				numStr := strings.TrimPrefix(strings.TrimSpace(parts[0]), "Device ")
+				if idx, err := strconv.Atoi(numStr); err == nil {
+					selectedDeviceIndex = idx
+				}
+			}
+		}
+		// Refresh UI from selected device's state
+		bright, temp, power := config.ReadCurrentState(selectedDeviceIndex)
+		brightnessSlider.SetValue(float64(bright))
+		brightnessLabel.SetText(fmt.Sprintf("Brightness %d%%", int(bright)))
+		tempSlider.SetValue(float64(temp))
+		tempLabel.SetText(fmt.Sprintf("Temperature %dk", uint16(temp)))
+		if power == 1 {
+			powerRadio.SetSelected("On")
+		} else {
+			powerRadio.SetSelected("Off")
+		}
+	})
+	deviceSelector.SetSelected("All Devices")
+	deviceGroup := container.New(layout.NewHBoxLayout(), deviceLabel, deviceSelector)
 
 	// Profiles
 	profileNew := widget.NewButton("New...", func() {
@@ -89,9 +128,9 @@ func main() {
 			brightnessLabel.SetText(fmt.Sprintf("Brightness %d%%", int(bright)))
 			tempSlider.SetValue(float64(temp))
 			tempLabel.SetText(fmt.Sprintf("Temperature %dk", uint16(temp)))
-			config.UpdateCurrentState(bright, temp, power)
-			lib.LightBrightness(bright)
-			lib.LightTemperature(uint16(temp))
+			config.UpdateCurrentState(selectedDeviceIndex, bright, temp, power)
+			lib.LightBrightness(selectedDeviceIndex, bright)
+			lib.LightTemperature(selectedDeviceIndex, uint16(temp))
 		}
 	})
 	profileDelete.OnTapped = func() {
@@ -106,7 +145,7 @@ func main() {
 
 	profileNew.OnTapped = func() {
 		dialog.ShowEntryDialog("New Profile", "Name", func(profileName string) {
-			_, _, currentPower := config.ReadCurrentState()
+			_, _, currentPower := config.ReadCurrentState(selectedDeviceIndex)
 			config.AddOrUpdateProfile(profileName, int(brightnessSlider.Value), int(tempSlider.Value), currentPower)
 			profileSelector.SetOptions(config.GetProfileNames())
 			profileSelector.SetSelected(profileName)
@@ -129,21 +168,21 @@ func main() {
 	}
 
 	brightnessSlider.OnChangeEnded = func(brightness float64) {
-		lib.LightBrightness(int(brightness))
+		lib.LightBrightness(selectedDeviceIndex, int(brightness))
 		brightnessLabel.SetText(fmt.Sprintf("Brightness %d%%", int(brightness)))
-		_, _, currentPower := config.ReadCurrentState()
+		_, _, currentPower := config.ReadCurrentState(selectedDeviceIndex)
 		config.AddOrUpdateProfile(profileSelector.Selected, int(brightness), -1, currentPower)
 	}
 
 	tempSlider.OnChangeEnded = func(temp float64) {
-		lib.LightTemperature(uint16(temp))
+		lib.LightTemperature(selectedDeviceIndex, uint16(temp))
 		tempLabel.SetText(fmt.Sprintf("Temperature %dk", uint16(temp)))
-		_, _, currentPower := config.ReadCurrentState()
+		_, _, currentPower := config.ReadCurrentState(selectedDeviceIndex)
 		config.AddOrUpdateProfile(profileSelector.Selected, -1, int(temp), currentPower)
 	}
 
 	// Set Current Values
-	currentBright, currentTemp, currentPower := config.ReadCurrentState()
+	currentBright, currentTemp, currentPower := config.ReadCurrentState(selectedDeviceIndex)
 	brightnessSlider.SetValue(float64(currentBright))
 	tempSlider.SetValue(float64(currentTemp))
 	brightnessLabel.SetText(fmt.Sprintf("Brightness %d%%", int(currentBright)))
@@ -155,7 +194,7 @@ func main() {
 	}
 
 	// Add all widgets to the container
-	mainGroup := container.New(layout.NewVBoxLayout(), powerGroup, profileGroup, brightnessGroup, tempGroup, exitButton)
+	mainGroup := container.New(layout.NewVBoxLayout(), deviceGroup, powerGroup, profileGroup, brightnessGroup, tempGroup, exitButton)
 
 	mainWindow.SetContent(mainGroup)
 

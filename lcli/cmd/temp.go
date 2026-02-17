@@ -41,7 +41,7 @@ var tempCmd = &cobra.Command{
 		if temp < 2700 || temp > 6500 {
 			fmt.Printf("Temperature must be a value between 2700 and 6500, not %s", args[0])
 		} else {
-			libImpl.LightTemperature(uint16(temp))
+			libImpl.LightTemperature(deviceIndex, uint16(temp))
 		}
 
 	},

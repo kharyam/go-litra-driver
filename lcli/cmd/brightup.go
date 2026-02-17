@@ -49,7 +49,7 @@ lcli brightup 5`,
 			if bright < 0 || bright > 100 {
 				fmt.Printf("Brightness must be a value between 0 and 100, not %s", args[0])
 			} else {
-				libImpl.LightBrightUp(bright)
+				libImpl.LightBrightUp(deviceIndex, bright)
 			}
 		}
 	},

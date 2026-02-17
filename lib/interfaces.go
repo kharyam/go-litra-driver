@@ -21,10 +21,18 @@ type HIDOpener interface {
 	Open(vendorID uint16, productID uint16, serialNumber string) (HIDDevice, error)
 }
 
+// DiscoveredDevice represents a connected Litra device with its metadata
+type DiscoveredDevice struct {
+	Index     int
+	Name      string
+	Serial    string
+	ProductID uint16
+}
+
 // ConfigUpdater is an interface for updating config state
 type ConfigUpdater interface {
-	UpdateCurrentState(brightness int, temperature int, power int)
-	ReadCurrentState() (brightness int, temperature int, power int)
+	UpdateCurrentState(deviceIndex int, brightness int, temperature int, power int)
+	ReadCurrentState(deviceIndex int) (brightness int, temperature int, power int)
 }
 
 // Default implementations
@@ -42,12 +50,12 @@ func (o *defaultHIDOpenerImpl) Open(vendorID uint16, productID uint16, serialNum
 
 type defaultConfigUpdaterImpl struct{}
 
-func (c *defaultConfigUpdaterImpl) UpdateCurrentState(brightness int, temperature int, power int) {
-	config.UpdateCurrentState(brightness, temperature, power)
+func (c *defaultConfigUpdaterImpl) UpdateCurrentState(deviceIndex int, brightness int, temperature int, power int) {
+	config.UpdateCurrentState(deviceIndex, brightness, temperature, power)
 }
 
-func (c *defaultConfigUpdaterImpl) ReadCurrentState() (brightness int, temperature int, power int) {
-	return config.ReadCurrentState()
+func (c *defaultConfigUpdaterImpl) ReadCurrentState(deviceIndex int) (brightness int, temperature int, power int) {
+	return config.ReadCurrentState(deviceIndex)
 }
 
 // Default instances

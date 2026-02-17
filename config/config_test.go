@@ -302,7 +302,7 @@ func TestUpdateCurrentState(t *testing.T) {
 	mockParser.On("Set", CurrentProfileName, Power, "1").Once()
 	mockParser.On("SaveWithDelimiter", "/xdg/config/home/llgd/config", "=").Return(nil).Once()
 
-	UpdateCurrentState(50, 4000, 1)
+	UpdateCurrentState(0, 50, 4000, 1)
 
 	mockFS.AssertExpectations(t)
 	mockParserFactory.AssertExpectations(t)
@@ -437,7 +437,7 @@ func TestReadCurrentState(t *testing.T) {
 	mockParser.On("Get", CurrentProfileName, Temp).Return("4000", nil).Once()
 	mockParser.On("Get", CurrentProfileName, Power).Return("1", nil).Once()
 
-	brightness, temperature, power := ReadCurrentState()
+	brightness, temperature, power := ReadCurrentState(0)
 	assert.Equal(t, 50, brightness)
 	assert.Equal(t, 4000, temperature)
 	assert.Equal(t, 1, power)
@@ -490,4 +490,110 @@ func TestGetProfileNames(t *testing.T) {
 	mockFS.AssertExpectations(t)
 	mockParserFactory.AssertExpectations(t)
 	mockParser.AssertExpectations(t)
+}
+
+// TestUpdateCurrentStatePerDevice tests UpdateCurrentState with a specific device index
+func TestUpdateCurrentStatePerDevice(t *testing.T) {
+	originalFS := defaultFS
+	originalParserFactory := defaultParserFactory
+	mockFS := &MockFileSystem{}
+	mockParserFactory := &MockParserFactory{}
+	mockParser := &MockParser{}
+	defaultFS = mockFS
+	defaultParserFactory = mockParserFactory
+	defer func() {
+		defaultFS = originalFS
+		defaultParserFactory = originalParserFactory
+	}()
+
+	mockFS.On("GetEnv", "XDG_CONFIG_HOME").Return("/xdg/config/home").Once()
+	mockFS.On("Stat", "/xdg/config/home/llgd").Return(&MockFileInfo{}, nil).Once()
+	mockFS.On("Stat", "/xdg/config/home/llgd/config").Return(&MockFileInfo{}, nil).Once()
+	mockParserFactory.On("NewConfigParserFromFile", "/xdg/config/home/llgd/config").Return(mockParser, nil).Once()
+
+	mockParser.On("HasSection", "current-1").Return(false).Once()
+	mockParser.On("AddSection", "current-1").Once()
+	mockParser.On("Set", "current-1", Bright, "50").Once()
+	mockParser.On("Set", "current-1", Temp, "4000").Once()
+	mockParser.On("Set", "current-1", Power, "1").Once()
+	mockParser.On("SaveWithDelimiter", "/xdg/config/home/llgd/config", "=").Return(nil).Once()
+
+	UpdateCurrentState(1, 50, 4000, 1)
+
+	mockFS.AssertExpectations(t)
+	mockParserFactory.AssertExpectations(t)
+	mockParser.AssertExpectations(t)
+}
+
+// TestReadCurrentStatePerDevice tests ReadCurrentState with a specific device index
+func TestReadCurrentStatePerDevice(t *testing.T) {
+	originalFS := defaultFS
+	originalParserFactory := defaultParserFactory
+	mockFS := &MockFileSystem{}
+	mockParserFactory := &MockParserFactory{}
+	mockParser := &MockParser{}
+	defaultFS = mockFS
+	defaultParserFactory = mockParserFactory
+	defer func() {
+		defaultFS = originalFS
+		defaultParserFactory = originalParserFactory
+	}()
+
+	mockFS.On("GetEnv", "XDG_CONFIG_HOME").Return("/xdg/config/home").Once()
+	mockFS.On("Stat", "/xdg/config/home/llgd").Return(&MockFileInfo{}, nil).Once()
+	mockFS.On("Stat", "/xdg/config/home/llgd/config").Return(&MockFileInfo{}, nil).Once()
+	mockParserFactory.On("NewConfigParserFromFile", "/xdg/config/home/llgd/config").Return(mockParser, nil).Once()
+
+	mockParser.On("Get", "current-2", Bright).Return("75", nil).Once()
+	mockParser.On("Get", "current-2", Temp).Return("3500", nil).Once()
+	mockParser.On("Get", "current-2", Power).Return("1", nil).Once()
+
+	brightness, temperature, power := ReadCurrentState(2)
+	assert.Equal(t, 75, brightness)
+	assert.Equal(t, 3500, temperature)
+	assert.Equal(t, 1, power)
+
+	mockFS.AssertExpectations(t)
+	mockParserFactory.AssertExpectations(t)
+	mockParser.AssertExpectations(t)
+}
+
+// TestGetProfileNamesFiltersDeviceSections tests that device sections are filtered from profile names
+func TestGetProfileNamesFiltersDeviceSections(t *testing.T) {
+	originalFS := defaultFS
+	originalParserFactory := defaultParserFactory
+	mockFS := &MockFileSystem{}
+	mockParserFactory := &MockParserFactory{}
+	mockParser := &MockParser{}
+	defaultFS = mockFS
+	defaultParserFactory = mockParserFactory
+	defer func() {
+		defaultFS = originalFS
+		defaultParserFactory = originalParserFactory
+	}()
+
+	mockFS.On("GetEnv", "XDG_CONFIG_HOME").Return("/xdg/config/home").Once()
+	mockFS.On("Stat", "/xdg/config/home/llgd").Return(&MockFileInfo{}, nil).Once()
+	mockFS.On("Stat", "/xdg/config/home/llgd/config").Return(&MockFileInfo{}, nil).Once()
+	mockParserFactory.On("NewConfigParserFromFile", "/xdg/config/home/llgd/config").Return(mockParser, nil).Once()
+
+	mockParser.On("Sections").Return([]string{CurrentProfileName, "current-1", "current-2", "profile1"}).Once()
+
+	profiles := GetProfileNames()
+	assert.Equal(t, []string{CurrentProfileName, "profile1"}, profiles)
+
+	mockFS.AssertExpectations(t)
+	mockParserFactory.AssertExpectations(t)
+	mockParser.AssertExpectations(t)
+}
+
+// TestIsDeviceSection tests the isDeviceSection helper
+func TestIsDeviceSection(t *testing.T) {
+	assert.True(t, isDeviceSection("current-1"))
+	assert.True(t, isDeviceSection("current-2"))
+	assert.True(t, isDeviceSection("current-10"))
+	assert.False(t, isDeviceSection("current"))
+	assert.False(t, isDeviceSection("current-abc"))
+	assert.False(t, isDeviceSection("myprofile"))
+	assert.False(t, isDeviceSection("current-"))
 }

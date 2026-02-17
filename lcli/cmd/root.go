@@ -27,6 +27,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var deviceIndex int
+
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "lcli",
@@ -48,12 +50,6 @@ func Execute() {
 }
 
 func init() {
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
-
-	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.lcli.yaml)")
-
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
+	rootCmd.PersistentFlags().IntVarP(&deviceIndex, "device", "d", 0,
+		"Device index to control (0=all, 1+=specific device). Use 'devices' command to list.")
 }

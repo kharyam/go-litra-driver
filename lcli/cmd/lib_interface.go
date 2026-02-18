@@ -7,54 +7,59 @@ import (
 
 // LitraLib defines the interface for the lib package functions used by the commands.
 type LitraLib interface {
-	LightOn()
-	LightOff()
-	LightBrightness(level int)
-	LightBrightDown(inc int)
-	LightBrightUp(inc int)
-	LightTemperature(temp uint16)
-	LightTempDown(inc int)
-	LightTempUp(inc int)
-	ReadCurrentState() (brightness int, temperature int, power int)
+	LightOn(deviceIndex int)
+	LightOff(deviceIndex int)
+	LightBrightness(deviceIndex int, level int)
+	LightBrightDown(deviceIndex int, inc int)
+	LightBrightUp(deviceIndex int, inc int)
+	LightTemperature(deviceIndex int, temp uint16)
+	LightTempDown(deviceIndex int, inc int)
+	LightTempUp(deviceIndex int, inc int)
+	ReadCurrentState(deviceIndex int) (brightness int, temperature int, power int)
+	ListDevices() []lib.DiscoveredDevice
 }
 
 // DefaultLitraLib is the default implementation of the LitraLib interface using the actual lib package.
 type DefaultLitraLib struct{}
 
-func (l *DefaultLitraLib) ReadCurrentState() (brightness int, temperature int, power int) {
-	return config.ReadCurrentState()
+func (l *DefaultLitraLib) ReadCurrentState(deviceIndex int) (brightness int, temperature int, power int) {
+	return config.ReadCurrentState(deviceIndex)
 }
 
-func (l *DefaultLitraLib) LightOn() {
-	lib.LightOn()
+func (l *DefaultLitraLib) LightOn(deviceIndex int) {
+	lib.LightOn(deviceIndex)
 }
 
-func (l *DefaultLitraLib) LightOff() {
-	lib.LightOff()
+func (l *DefaultLitraLib) LightOff(deviceIndex int) {
+	lib.LightOff(deviceIndex)
 }
 
-func (l *DefaultLitraLib) LightBrightness(level int) {
-	lib.LightBrightness(level)
+func (l *DefaultLitraLib) LightBrightness(deviceIndex int, level int) {
+	lib.LightBrightness(deviceIndex, level)
 }
 
-func (l *DefaultLitraLib) LightBrightDown(inc int) {
-	lib.LightBrightDown(inc)
+func (l *DefaultLitraLib) LightBrightDown(deviceIndex int, inc int) {
+	lib.LightBrightDown(deviceIndex, inc)
 }
 
-func (l *DefaultLitraLib) LightBrightUp(inc int) {
-	lib.LightBrightUp(inc)
+func (l *DefaultLitraLib) LightBrightUp(deviceIndex int, inc int) {
+	lib.LightBrightUp(deviceIndex, inc)
 }
 
-func (l *DefaultLitraLib) LightTemperature(temp uint16) {
-	lib.LightTemperature(temp)
+func (l *DefaultLitraLib) LightTemperature(deviceIndex int, temp uint16) {
+	lib.LightTemperature(deviceIndex, temp)
 }
 
-func (l *DefaultLitraLib) LightTempDown(inc int) {
-	lib.LightTempDown(inc)
+func (l *DefaultLitraLib) LightTempDown(deviceIndex int, inc int) {
+	lib.LightTempDown(deviceIndex, inc)
 }
 
-func (l *DefaultLitraLib) LightTempUp(inc int) {
-	lib.LightTempUp(inc)
+func (l *DefaultLitraLib) LightTempUp(deviceIndex int, inc int) {
+	lib.LightTempUp(deviceIndex, inc)
+}
+
+func (l *DefaultLitraLib) ListDevices() []lib.DiscoveredDevice {
+	return lib.ListDevices()
 }
 
 // libImpl is the variable that will hold the implementation of the LitraLib interface.

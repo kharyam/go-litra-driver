@@ -44,7 +44,7 @@ lcli tempup 100`,
 		if temp < 1 {
 			fmt.Printf("Temperature increment must be a value greater than 0, not %s", args[0])
 		} else {
-			libImpl.LightTempUp(temp)
+			libImpl.LightTempUp(deviceIndex, temp)
 		}
 	},
 	Args: cobra.ExactArgs(1),

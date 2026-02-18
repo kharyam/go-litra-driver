@@ -65,6 +65,17 @@ jobs:
       - name: Build custom image
         run: docker build -t fyne-custom:latest build/linux
 
+      - name: Prepare local modules for cross-compile
+        run: |
+          for dir in lcli lcui; do
+            cp -r lib "$dir/lib"
+            cp -r config "$dir/config"
+            cd "$dir"
+            go mod edit -replace github.com/kharyam/go-litra-driver/lib=./lib
+            go mod edit -replace github.com/kharyam/go-litra-driver/config=./config
+            cd ..
+          done
+
       - name: Build linux amd64 cli
         run: |
           cd lcli

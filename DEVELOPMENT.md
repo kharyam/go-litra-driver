@@ -27,7 +27,7 @@ go tool cover -html=coverage.out
 
 ```bash
 # Update to new version
-export VERSION=v0.1.6
+export VERSION=v0.1.8
 
 cd config
 go get -u
@@ -69,7 +69,7 @@ git pull origin main
 
 # Tag as the version defined above
 git tag -a ${VERSION} -m "Release version ${VERSION:1}"
-git push origin v0.1.6
+git push origin ${VERSION}
 
 # Git hub action will build for all supported platforms, run unit tests, and create the Release
 

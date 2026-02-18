@@ -21,7 +21,7 @@ jobs:
       run: go build -v ./config
 
     - name: Install libudev
-      run: sudo apt-get install -y libudev-dev
+      run: sudo apt-get update && sudo apt-get install -y libudev-dev
 
     - name: Build lib
       run: go build -v ./lib
@@ -30,7 +30,7 @@ jobs:
       run: go build -o lcli -v ./lcli
 
     - name: Install X dependencies
-      run: sudo apt-get install -y libgl1-mesa-dev xorg-dev
+      run: sudo apt-get update && sudo apt-get install -y libgl1-mesa-dev xorg-dev
 
     - name: Build ui
       run: go build -o lcui -v ./lcui

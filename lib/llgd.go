@@ -97,7 +97,7 @@ func commandDevices(bytes []byte, deviceIndex int) {
 		var d = devices[i]
 		defer d.device.Close()
 		if deviceIndex == 0 || d.metadata.Index == deviceIndex {
-			d.device.Write(bytes)
+			d.device.Write(preparePayload(bytes))
 		}
 	}
 }

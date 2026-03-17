@@ -1,3 +1,5 @@
+# Stray go.sum at workspace root (not a module; workspace uses go.work.sum instead)
+/go.sum
 fyne-cross
 lcli
 cli

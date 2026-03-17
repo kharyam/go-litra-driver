@@ -40,16 +40,6 @@ go get -u
 cd ..
 
 cd config
-go get -u
-cd ../lib
-go get -u
-cd ../lcli
-go get -u
-cd ../lcui
-go get -u
-cd ..
-
-cd config
 go mod tidy
 cd ../lib
 go mod tidy
@@ -67,7 +57,12 @@ cd ..
 git checkout main
 git pull origin main
 
-# Tag as the version defined above
+
+
+## Delete tags if they already exist
+git tag -d ${VERSION} 2>/dev/null || true
+git push origin --delete ${VERSION} 2>/dev/null || true
+
 git tag -a ${VERSION} -m "Release version ${VERSION:1}"
 git push origin ${VERSION}
 

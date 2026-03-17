@@ -1,12 +1,10 @@
 module github.com/kharyam/go-litra-driver/lcli
 
-go 1.24.0
-
-toolchain go1.24.12
+go 1.25.0
 
 require (
-	github.com/kharyam/go-litra-driver/config v0.0.0-20260218011635-1ab78146269e
-	github.com/kharyam/go-litra-driver/lib v0.0.0-20260218011635-1ab78146269e
+	github.com/kharyam/go-litra-driver/config v0.0.0-20260218014924-3052adddc9b0
+	github.com/kharyam/go-litra-driver/lib v0.0.0-20260218014924-3052adddc9b0
 	github.com/spf13/cobra v1.10.2
 	github.com/stretchr/testify v1.10.0
 )
@@ -22,6 +20,6 @@ require (
 	github.com/spf13/pflag v1.0.10 // indirect
 	github.com/sstallion/go-hid v0.15.0 // indirect
 	github.com/stretchr/objx v0.5.2 // indirect
-	golang.org/x/sys v0.41.0 // indirect
+	golang.org/x/sys v0.42.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

@@ -1,13 +1,11 @@
 module github.com/kharyam/go-litra-driver/lcui
 
-go 1.24.0
-
-toolchain go1.24.12
+go 1.25.0
 
 require (
-	fyne.io/fyne/v2 v2.7.2
-	github.com/kharyam/go-litra-driver/config v0.0.0-20260218011635-1ab78146269e
-	github.com/kharyam/go-litra-driver/lib v0.0.0-20260218011635-1ab78146269e
+	fyne.io/fyne/v2 v2.7.3
+	github.com/kharyam/go-litra-driver/config v0.0.0-20260218014924-3052adddc9b0
+	github.com/kharyam/go-litra-driver/lib v0.0.0-20260218014924-3052adddc9b0
 )
 
 require (
@@ -23,8 +21,8 @@ require (
 	github.com/fyne-io/oksvg v0.2.0 // indirect
 	github.com/go-gl/gl v0.0.0-20231021071112-07e5d0ea2e71 // indirect
 	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20250301202403-da16c1255728 // indirect
-	github.com/go-text/render v0.2.0 // indirect
-	github.com/go-text/typesetting v0.3.3 // indirect
+	github.com/go-text/render v0.2.1 // indirect
+	github.com/go-text/typesetting v0.3.4 // indirect
 	github.com/godbus/dbus/v5 v5.2.2 // indirect
 	github.com/hack-pad/go-indexeddb v0.3.2 // indirect
 	github.com/hack-pad/safejs v0.1.1 // indirect
@@ -42,9 +40,9 @@ require (
 	github.com/sstallion/go-hid v0.15.0 // indirect
 	github.com/stretchr/testify v1.11.1 // indirect
 	github.com/yuin/goldmark v1.7.16 // indirect
-	golang.org/x/image v0.36.0 // indirect
-	golang.org/x/net v0.50.0 // indirect
-	golang.org/x/sys v0.41.0 // indirect
-	golang.org/x/text v0.34.0 // indirect
+	golang.org/x/image v0.37.0 // indirect
+	golang.org/x/net v0.52.0 // indirect
+	golang.org/x/sys v0.42.0 // indirect
+	golang.org/x/text v0.35.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

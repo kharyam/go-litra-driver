@@ -64,8 +64,10 @@ jobs:
       - name: Install fyne-cross
         run: go install github.com/fyne-io/fyne-cross@latest
 
-      - name: Build custom image
-        run: docker build -t fyne-custom:latest build/linux
+      - name: Build custom images
+        run: |
+          docker build -t fyne-custom:latest build/linux
+          docker build -t fyne-custom-windows:latest build/windows
 
       - name: Prepare local modules for cross-compile
         run: |
@@ -105,13 +107,13 @@ jobs:
       - name: Build windows cli
         run: |
           cd lcli
-          fyne-cross windows --arch=amd64 --app-id=net.kharyam.lcli
+          fyne-cross windows --image=fyne-custom-windows:latest --arch=amd64 --app-id=net.kharyam.lcli
           cd ..
 
       - name: Build windows lcui
         run: |
           cd lcui
-          fyne-cross windows --arch=amd64 --app-id=net.kharyam.lcui
+          fyne-cross windows --image=fyne-custom-windows:latest --arch=amd64 --app-id=net.kharyam.lcui
           cd ..
 
       - name: Move files to dist
